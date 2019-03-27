@@ -2,7 +2,6 @@ package com.github.kisstkondoros.codemetrics;
 
 import com.github.kisstkondoros.codemetrics.visitor.ComplexityVisitor;
 import com.google.common.base.Joiner;
-import com.google.common.collect.Iterables;
 import com.intellij.codeHighlighting.Pass;
 import com.intellij.codeInsight.daemon.LineMarkerInfo;
 import com.intellij.codeInsight.daemon.LineMarkerProvider;
@@ -48,23 +47,22 @@ public class CodeMetricsLineMarkerProvider implements LineMarkerProvider {
             final Function<PsiElement, String> tooltip = psiElement -> summary.getTooltip(document);
             if (summary.getSummary() > 0) {
                 return new MetricsMarkerInfo(element, summary.getIcon(),
-                        new MarkerType(tooltip, new LineMarkerNavigator() {
+                        new MarkerType("CodeMetricsLineMarker", tooltip, new LineMarkerNavigator() {
 
                             @Override
                             public void browse(final MouseEvent e, final PsiElement element) {
                                 final Editor editor = PsiUtilBase.findEditor(element);
-                                PsiElement[] psiElements = getNavigatablePsiElements(document);
+                                List<PsiElement> psiElements = getNavigatablePsiElements(document);
                                 JBPopup jbPopup = PsiElementList
                                         .navigateOrCreatePopup(psiElements, "Complexity increasing elements",
-                                                "Elements", new MetricsCellRenderer(summary), null,
-                                                new Consumer<Object[]>() {
+                                                "Elements", new MetricsCellRenderer(summary),
+                                                new Consumer<List<PsiElement>>() {
                                                     @Override
-                                                    public void consume(Object[] selectedElements) {
-                                                        for (Object element : selectedElements) {
-                                                            PsiElement selected = (PsiElement) element;
-                                                            if (selected instanceof NavigatablePsiElement) {
+                                                    public void consume(List<PsiElement> selectedElements) {
+                                                        for (PsiElement element : selectedElements) {
+                                                            if (element instanceof NavigatablePsiElement) {
                                                                 NavigatablePsiElement navigatablePsiElement =
-                                                                        (NavigatablePsiElement) selected;
+                                                                        (NavigatablePsiElement) element;
                                                                 navigatablePsiElement.navigate(true);
                                                             }
 
@@ -78,8 +76,8 @@ public class CodeMetricsLineMarkerProvider implements LineMarkerProvider {
                                                                                 element);
 
                                                                 if (handler != null) {
-                                                                    handler.invoke(selected.getProject(),
-                                                                            new PsiElement[]{selected}, dataContext);
+                                                                    handler.invoke(element.getProject(),
+                                                                            new PsiElement[]{element}, dataContext);
                                                                 }
                                                             }
                                                         }
@@ -118,11 +116,10 @@ public class CodeMetricsLineMarkerProvider implements LineMarkerProvider {
                             }
 
                             @NotNull
-                            private PsiElement[] getNavigatablePsiElements(Document document) {
+                            private List<PsiElement> getNavigatablePsiElements(Document document) {
                                 List<ComplexityVisitor.ComplexityInfo> complexityInfos = summary
                                         .getLineNumberOrderedComplexityInformation(document);
-                                Iterable<PsiElement> castedElements = complexityInfos.stream().map(ComplexityVisitor.ComplexityInfo::getElement).collect(Collectors.toList());
-                                return Iterables.toArray(castedElements, PsiElement.class);
+                                return complexityInfos.stream().map(ComplexityVisitor.ComplexityInfo::getElement).collect(Collectors.toList());
                             }
                         }));
             }
