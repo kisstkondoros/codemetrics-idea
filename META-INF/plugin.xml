@@ -8,7 +8,7 @@
       Code metrics is a simple Cyclomatic complexity annotator
     ]]></description>
 
-  <idea-version since-build="135"/>
+  <idea-version since-build="171"/>
 
   <depends>com.intellij.modules.lang</depends>
 
