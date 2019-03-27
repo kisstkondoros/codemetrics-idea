@@ -1,6 +1,6 @@
 <idea-plugin>
   <id>com.github.kisstkondoros.codemetrics</id>
-  <name>Code metrics</name>
+  <name>CodeMetrics</name>
   <version>0.1</version>
   <vendor email="kisstkondoros@gmail.com" url="https://github.com/kisstkondoros">kisstkondoros</vendor>
 
