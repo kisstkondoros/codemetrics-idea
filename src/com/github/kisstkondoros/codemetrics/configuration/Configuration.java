@@ -30,11 +30,11 @@ public class Configuration implements PersistentStateComponent<Configuration> {
         return ServiceManager.getService(Configuration.class);
     }
 
-    public Integer errorColor = 0xFF5722FF;
+    public Integer errorColor = 0xFFFF5722;
     public Integer errorTextColor = 0xE2000000;
-    public Integer warningColor = 0xFFEB3BFF;
+    public Integer warningColor = 0xFFFFEB3B;
     public Integer warningTextColor = 0xE2000000;
-    public Integer informationColor = 0x4CAF50FF;
+    public Integer informationColor = 0xFF4CAF50;
     public Integer informationTextColor = 0xE2000000;
 
     @Nullable
