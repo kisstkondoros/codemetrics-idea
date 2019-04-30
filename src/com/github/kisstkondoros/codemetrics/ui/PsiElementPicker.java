@@ -1,4 +1,4 @@
-package com.github.kisstkondoros.codemetrics;
+package com.github.kisstkondoros.codemetrics.ui;
 
 import com.google.common.collect.ImmutableList;
 import com.intellij.find.FindUtil;
@@ -20,9 +20,9 @@ import javax.swing.*;
 import java.util.List;
 
 
-public class PsiElementList {
+public class PsiElementPicker {
 
-    private PsiElementList() {
+    private PsiElementPicker() {
     }
 
     @Nullable

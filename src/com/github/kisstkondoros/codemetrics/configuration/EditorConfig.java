@@ -1,27 +1,22 @@
 package com.github.kisstkondoros.codemetrics.configuration;
 
+import com.github.kisstkondoros.codemetrics.core.config.MetricsConfiguration;
+import com.intellij.ide.plugins.newui.HorizontalLayout;
+import com.intellij.ide.plugins.newui.VerticalLayout;
 import com.intellij.openapi.options.Configurable;
-import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.ui.ClickListener;
-import com.intellij.ui.ColorChooser;
-import com.intellij.ui.ColorUtil;
+import com.intellij.ui.ColorPanel;
 import com.intellij.ui.components.JBCheckBox;
+import com.intellij.ui.components.JBTabbedPane;
 import com.intellij.ui.components.JBTextField;
-import com.intellij.util.ui.JBUI;
-import com.intellij.util.ui.UIUtil;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -29,41 +24,142 @@ import java.util.Objects;
 
 public class EditorConfig implements Configurable {
 
-    private final Configuration configuration;
-    private java.util.List<BeanField> fields;
+    private final MetricsConfiguration configuration;
+    private java.util.List<BeanField> basicFields;
+    private java.util.List<BeanField> advancedFields;
 
     protected EditorConfig() {
-        configuration = Configuration.getInstance();
-        fields = new ArrayList<>();
-        colorPicker("errorColor", "Error");
-        colorPicker("errorTextColor", "Error text");
-        colorPicker("warningColor", "Warning");
-        colorPicker("warningTextColor", "Warning text");
-        colorPicker("informationColor", "Information");
-        colorPicker("informationTextColor", "Information text");
+        configuration = MetricsConfiguration.getInstance();
+        basicFields = new ArrayList<>();
+        advancedFields = new ArrayList<>();
 
-        numeric("lambdaComplexity", "Lambda Complexity");
-        numeric("classComplexity", "Class Complexity");
-        numeric("returnComplexity", "Return Complexity");
-        numeric("tryComplexity", "Try Complexity");
-        numeric("forComplexity", "For Complexity");
-        numeric("foreachComplexity", "Foreach Complexity");
-        numeric("ifComplexity", "If Complexity");
-        numeric("doWhileComplexity", "DoWhile Complexity");
-        numeric("conditionalComplexity", "Conditional Complexity");
-        numeric("switchComplexity", "Switch Complexity");
-        numeric("whileComplexity", "While Complexity");
-        numeric("polyadicComplexity", "Polyadic Complexity");
-        numeric("catchComplexity", "Catch Complexity");
-        numeric("breakComplexity", "Break Complexity");
-        numeric("continueComplexity", "Continue Complexity");
+        /* basic fields */
+        colorPicker(basicFields, "complexityColorLow", "Complexity color low");
+        colorPicker(basicFields, "complexityColorNormal", "Complexity color normal");
+        colorPicker(basicFields, "complexityColorHigh", "Complexity color high");
+        colorPicker(basicFields, "complexityColorExtreme", "Complexity color extreme");
+
+        numeric(basicFields, "complexityLevelLow", "Complexity level low");
+        numeric(basicFields, "complexityLevelNormal", "Complexity level normal");
+        numeric(basicFields, "complexityLevelHigh", "Complexity level high");
+        numeric(basicFields, "complexityLevelExtreme", "Complexity level extreme");
+
+        numeric(basicFields, "hiddenUnder", "Show metrics above complexity");
+
+        checkBox(basicFields, "metricsForAnonymousClass", "Show metrics for anonymous classes");
+        checkBox(basicFields, "metricsForAClass", "Show metrics for classes");
+        checkBox(basicFields, "metricsForMethod", "Show metrics for methods");
+        checkBox(basicFields, "metricsForLambdaExpression", "Show metrics for lambdas");
+
+        /* advanced fields */
+        numeric(advancedFields, "anonymousClass", "Anonymous Class");
+        numeric(advancedFields, "arrayAccessExpression", "Array Access Expression");
+        numeric(advancedFields, "arrayInitializerExpression", "Array Initializer Expression");
+        numeric(advancedFields, "assertStatement", "Assert Statement");
+        numeric(advancedFields, "assignmentExpression", "Assignment Expression");
+        numeric(advancedFields, "binaryExpression", "Binary Expression");
+        numeric(advancedFields, "blockStatement", "Block Statement");
+        numeric(advancedFields, "breakStatement", "Break Statement");
+        numeric(advancedFields, "aClass", "Class");
+        numeric(advancedFields, "classInitializer", "Class Initializer");
+        numeric(advancedFields, "classObjectAccessExpression", "Class Object Access Expression");
+        numeric(advancedFields, "codeBlock", "Code Block");
+        numeric(advancedFields, "conditionalExpression", "Conditional Expression");
+        numeric(advancedFields, "continueStatement", "Continue Statement");
+        numeric(advancedFields, "declarationStatement", "Declaration Statement");
+        numeric(advancedFields, "docComment", "Doc Comment");
+        numeric(advancedFields, "docTag", "Doc Tag");
+        numeric(advancedFields, "docTagValue", "Doc Tag Value");
+        numeric(advancedFields, "doWhileStatement", "Do While Statement");
+        numeric(advancedFields, "emptyStatement", "Empty Statement");
+        numeric(advancedFields, "expression", "Expression");
+        numeric(advancedFields, "expressionList", "Expression List");
+        numeric(advancedFields, "expressionListStatement", "Expression List Statement");
+        numeric(advancedFields, "expressionStatement", "Expression Statement");
+        numeric(advancedFields, "field", "Field");
+        numeric(advancedFields, "forStatement", "For Statement");
+        numeric(advancedFields, "foreachStatement", "Foreach Statement");
+        numeric(advancedFields, "identifier", "Identifier");
+        numeric(advancedFields, "ifStatement", "If Statement");
+        numeric(advancedFields, "importList", "Import List");
+        numeric(advancedFields, "importStatement", "Import Statement");
+        numeric(advancedFields, "importStaticStatement", "Import Static Statement");
+        numeric(advancedFields, "inlineDocTag", "Inline Doc Tag");
+        numeric(advancedFields, "instanceOfExpression", "Instance Of Expression");
+        numeric(advancedFields, "javaToken", "Java Token");
+        numeric(advancedFields, "keyword", "Keyword");
+        numeric(advancedFields, "labeledStatement", "Labeled Statement");
+        numeric(advancedFields, "literalExpression", "Literal Expression");
+        numeric(advancedFields, "localVariable", "Local Variable");
+        numeric(advancedFields, "method", "Method");
+        numeric(advancedFields, "methodCallExpression", "Method Call Expression");
+        numeric(advancedFields, "callExpression", "Call Expression");
+        numeric(advancedFields, "modifierList", "Modifier List");
+        numeric(advancedFields, "newExpression", "New Expression");
+        numeric(advancedFields, "aPackage", "Package");
+        numeric(advancedFields, "packageStatement", "Package Statement");
+        numeric(advancedFields, "parameter", "Parameter");
+        numeric(advancedFields, "receiverParameter", "Receiver Parameter");
+        numeric(advancedFields, "parameterList", "Parameter List");
+        numeric(advancedFields, "parenthesizedExpression", "Parenthesized Expression");
+        numeric(advancedFields, "unaryExpression", "Unary Expression");
+        numeric(advancedFields, "postfixExpression", "Postfix Expression");
+        numeric(advancedFields, "prefixExpression", "Prefix Expression");
+        numeric(advancedFields, "referenceElement", "Reference Element");
+        numeric(advancedFields, "importStaticReferenceElement", "Import Static Reference Element");
+        numeric(advancedFields, "methodReferenceExpression", "Method Reference Expression");
+        numeric(advancedFields, "referenceList", "Reference List");
+        numeric(advancedFields, "referenceParameterList", "Reference Parameter List");
+        numeric(advancedFields, "typeParameterList", "Type Parameter List");
+        numeric(advancedFields, "returnStatement", "Return Statement");
+        numeric(advancedFields, "superExpression", "Super Expression");
+        numeric(advancedFields, "switchLabelStatement", "Switch Label Statement");
+        numeric(advancedFields, "switchStatement", "Switch Statement");
+        numeric(advancedFields, "synchronizedStatement", "Synchronized Statement");
+        numeric(advancedFields, "thisExpression", "This Expression");
+        numeric(advancedFields, "throwStatement", "Throw Statement");
+        numeric(advancedFields, "tryStatement", "Try Statement");
+        numeric(advancedFields, "catchSection", "Catch Section");
+        numeric(advancedFields, "resourceList", "Resource List");
+        numeric(advancedFields, "resourceVariable", "Resource Variable");
+        numeric(advancedFields, "resourceExpression", "Resource Expression");
+        numeric(advancedFields, "typeElement", "Type Element");
+        numeric(advancedFields, "typeCastExpression", "Type Cast Expression");
+        numeric(advancedFields, "variable", "Variable");
+        numeric(advancedFields, "whileStatement", "While Statement");
+        numeric(advancedFields, "javaFile", "Java File");
+        numeric(advancedFields, "implicitVariable", "Implicit Variable");
+        numeric(advancedFields, "docToken", "Doc Token");
+        numeric(advancedFields, "typeParameter", "Type Parameter");
+        numeric(advancedFields, "annotation", "Annotation");
+        numeric(advancedFields, "annotationParameterList", "Annotation Parameter List");
+        numeric(advancedFields, "annotationArrayInitializer", "Annotation Array Initializer");
+        numeric(advancedFields, "nameValuePair", "Name Value Pair");
+        numeric(advancedFields, "annotationMethod", "Annotation Method");
+        numeric(advancedFields, "enumConstant", "Enum Constant");
+        numeric(advancedFields, "enumConstantInitializer", "Enum Constant Initializer");
+        numeric(advancedFields, "codeFragment", "Code Fragment");
+        numeric(advancedFields, "polyadicExpression", "Polyadic Expression");
+        numeric(advancedFields, "lambdaExpression", "Lambda Expression");
+        numeric(advancedFields, "module", "Module");
+        numeric(advancedFields, "moduleReferenceElement", "Module Reference Element");
+        numeric(advancedFields, "moduleStatement", "Module Statement");
+        numeric(advancedFields, "requiresStatement", "Requires Statement");
+        numeric(advancedFields, "packageAccessibilityStatement", "Package Accessibility Statement");
+        numeric(advancedFields, "usesStatement", "Uses Statement");
+        numeric(advancedFields, "providesStatement", "Provides Statement");
+
     }
 
-    private void numeric(String fieldName, String title) {
+    private void checkBox(java.util.List<BeanField> fields, String fieldName, String title) {
+        fields.add(new CheckBoxField(fieldName, title));
+    }
+
+    private void numeric(java.util.List<BeanField> fields, String fieldName, String title) {
         fields.add(new NumericField(fieldName, title));
     }
 
-    private void colorPicker(String fieldName, String title) {
+    private void colorPicker(java.util.List<BeanField> fields, String fieldName, String title) {
         fields.add(new ColorPickerField(fieldName, title));
     }
 
@@ -82,33 +178,40 @@ public class EditorConfig implements Configurable {
     @Nullable
     @Override
     public JComponent createComponent() {
-        final JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        JTabbedPane tabbedPane = new JBTabbedPane();
 
-        for (BeanField field : fields) {
+        final JPanel panel = new JPanel(new VerticalLayout(8));
+
+        for (BeanField field : basicFields) {
             panel.add(field.getComponent());
         }
-        return panel;
+
+        final JPanel advanced = new JPanel(new VerticalLayout(8));
+
+        for (BeanField field : advancedFields) {
+            advanced.add(field.getComponent());
+        }
+
+        tabbedPane.add("Basics", panel);
+        tabbedPane.add("Advanced", advanced);
+
+        return tabbedPane;
     }
 
 
     public boolean isModified() {
-        for (BeanField field : fields) {
-            if (field.isModified(configuration)) return true;
-        }
-        return false;
+        return basicFields.stream().anyMatch(f -> f.isModified(configuration)) ||
+                advancedFields.stream().anyMatch(f -> f.isModified(configuration));
     }
 
     public void apply() {
-        for (BeanField field : fields) {
-            field.apply(configuration);
-        }
+        basicFields.forEach(p -> p.apply(configuration));
+        advancedFields.forEach(p -> p.apply(configuration));
     }
 
     public void reset() {
-        for (BeanField field : fields) {
-            field.reset(configuration);
-        }
+        basicFields.forEach(p -> p.reset(configuration));
+        advancedFields.forEach(p -> p.reset(configuration));
     }
 
     @Override
@@ -200,38 +303,32 @@ public class EditorConfig implements Configurable {
     private static class ColorPickerField extends BeanField<JPanel> {
 
         private String title;
-        private MyColorButton myColorButton;
-        private JSlider jSlider;
+        private ColorPanel colorPanel;
 
         private ColorPickerField(final String fieldName, final String title) {
             super(fieldName);
             this.title = title;
-            myColorButton = new MyColorButton();
+            colorPanel = new ColorPanel();
         }
 
         JPanel createComponent() {
-            JPanel jPanel = new JPanel();
-            myColorButton.setText(title);
-            jPanel.add(myColorButton);
-            jSlider = new JSlider(JSlider.HORIZONTAL, 0, 255, 255);
-            jPanel.add(jSlider);
-            jSlider.addChangeListener(e -> {
-                myColorButton.setColor(ColorUtil.toAlpha(myColorButton.getColor(), jSlider.getValue()));
-                myColorButton.repaint();
-            });
-            BoxLayout mgr = new BoxLayout(jPanel, BoxLayout.X_AXIS);
-            jPanel.setLayout(mgr);
+            JPanel jPanel = new JPanel(new HorizontalLayout(8));
+            JLabel label = new JLabel();
+            label.setPreferredSize(new Dimension(300, 20));
+            label.setText(title);
+
+            jPanel.add(label);
+            jPanel.add(colorPanel);
             return jPanel;
         }
 
         Object getComponentValue() {
-            return myColorButton.getColor().getRGB();
+            return colorPanel.getSelectedColor().getRGB();
         }
 
         void setComponentValue(final Object instance) {
             Color color = new Color(((int) instance), true);
-            jSlider.setValue(color.getAlpha());
-            myColorButton.setColor(color);
+            colorPanel.setSelectedColor(color);
         }
 
         @Override
@@ -244,56 +341,6 @@ public class EditorConfig implements Configurable {
         }
     }
 
-    private static class MyColorButton extends JButton {
-        private Color color;
-
-        MyColorButton() {
-            setMargin(JBUI.emptyInsets());
-            setDefaultCapable(false);
-            setFocusable(false);
-            if (SystemInfo.isMac) {
-                putClientProperty("JButton.buttonType", "square");
-            }
-
-            new ClickListener() {
-                @Override
-                public boolean onClick(@NotNull MouseEvent e, int clickCount) {
-                    final Color color = ColorChooser.chooseColor(MyColorButton.this, "Chose Color", MyColorButton.this.getColor());
-                    if (color != null) {
-                        setColor(color);
-                    }
-                    return true;
-                }
-            }.installOn(this);
-        }
-
-        @Override
-        public void paint(Graphics g) {
-            final Color color = g.getColor();
-            UIUtil.applyRenderingHints(g);
-            g.setColor(this.color);
-            g.fillRect(2, 2, 20, 20);
-            g.setColor(color);
-            g.drawString(getText(), 30, 15);
-        }
-
-        public Dimension getMinimumSize() {
-            return getPreferredSize();
-        }
-
-        public Dimension getPreferredSize() {
-            return new Dimension(200, 20);
-        }
-
-        public void setColor(Color color) {
-            this.color = color;
-        }
-
-        public Color getColor() {
-            return color;
-        }
-    }
-
     private class NumericField extends BeanField<JPanel> {
 
         private JBTextField jbTextField;
@@ -302,27 +349,18 @@ public class EditorConfig implements Configurable {
         public NumericField(String fieldName, String title) {
             super(fieldName);
             this.title = title;
-            jbTextField = new JBTextField() {
-                public Dimension getMinimumSize() {
-                    return getPreferredSize();
-                }
-
-                public Dimension getPreferredSize() {
-                    return new Dimension(200, 20);
-                }
-            };
+            jbTextField = new JBTextField();
         }
 
         @Override
         JPanel createComponent() {
-            JPanel jPanel = new JPanel();
+            JPanel jPanel = new JPanel(new HorizontalLayout(8));
             JLabel label = new JLabel();
+            label.setPreferredSize(new Dimension(300, 20));
             label.setText(title);
+
             jPanel.add(label);
-            label.setPreferredSize(new Dimension(200, 20));
             jPanel.add(jbTextField);
-            BoxLayout mgr = new BoxLayout(jPanel, BoxLayout.X_AXIS);
-            jPanel.setLayout(mgr);
             return jPanel;
         }
 
@@ -347,6 +385,45 @@ public class EditorConfig implements Configurable {
         @Override
         protected Class getValueClass() {
             return Integer.class;
+        }
+    }
+
+    private class CheckBoxField extends BeanField<JPanel> {
+
+        private JBCheckBox jbCheckBox;
+        private String title;
+
+        public CheckBoxField(String fieldName, String title) {
+            super(fieldName);
+            this.title = title;
+            jbCheckBox = new JBCheckBox();
+        }
+
+        @Override
+        JPanel createComponent() {
+            JPanel jPanel = new JPanel(new HorizontalLayout(8));
+
+            JLabel label = new JLabel();
+            label.setText(title);
+
+            jPanel.add(jbCheckBox);
+            jPanel.add(label);
+            return jPanel;
+        }
+
+        @Override
+        Object getComponentValue() {
+            return jbCheckBox.isSelected();
+        }
+
+        @Override
+        void setComponentValue(Object instance) {
+            jbCheckBox.setSelected(Boolean.TRUE.equals(instance));
+        }
+
+        @Override
+        protected Class getValueClass() {
+            return Boolean.class;
         }
     }
 }
