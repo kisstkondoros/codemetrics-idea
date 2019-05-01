@@ -59,17 +59,11 @@ public class MetricsModel {
         }
     }
 
-    public String toLogString(String level) {
-        String textToShow = getTextToShow();
-        LineColumn lineColumn = StringUtil.offsetToLineColumn(node.getContainingFile().getText(), node.getTextOffset());
-        String complexity = this.pad(this.getCollectedComplexity() + "", 3);
-        String line = this.pad(lineColumn.line + "", 4);
-        String column = this.pad(lineColumn.column + "", 4);
-
-        return String.format("+%s - Ln %s Col %s %s %s", complexity, line, column, level, textToShow);
+    public String getSummary() {
+        return String.format("+%s - %s: %s", getCollectedComplexity(), description, getTextToShow());
     }
 
-    private String getTextToShow() {
+    public String getTextToShow() {
         if (node instanceof PsiNamedElement) {
             return ((PsiNamedElement) node).getName();
         }

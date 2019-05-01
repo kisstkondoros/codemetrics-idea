@@ -4,8 +4,9 @@ import com.github.kisstkondoros.codemetrics.core.MetricsModel;
 import com.github.kisstkondoros.codemetrics.core.ModelLookup;
 import com.intellij.ide.util.DefaultPsiElementCellRenderer;
 import com.intellij.psi.PsiElement;
+import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
+import javax.swing.*;
 
 public class MetricsCellRenderer extends DefaultPsiElementCellRenderer {
 
@@ -16,10 +17,19 @@ public class MetricsCellRenderer extends DefaultPsiElementCellRenderer {
     }
 
     @Override
-    public Dimension getPreferredSize() {
-        Dimension preferredSize = super.getPreferredSize();
-        int preferredSizeHeight = (int) preferredSize.getHeight();
-        return new Dimension(800, preferredSizeHeight);
+    public String getContainerText(PsiElement element, String name) {
+        return null;
+    }
+
+    @Override
+    protected Icon getIcon(PsiElement element) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    protected DefaultListCellRenderer getRightCellRenderer(Object value) {
+        return null;
     }
 
     @Override
@@ -27,7 +37,7 @@ public class MetricsCellRenderer extends DefaultPsiElementCellRenderer {
         MetricsModel metricsModel = ModelLookup.find(root, element);
 
         if (metricsModel != null) {
-            return metricsModel.toLogString("") + " " + metricsModel.description;
+            return metricsModel.getSummary();
         } else {
             return super.getElementText(element);
         }
