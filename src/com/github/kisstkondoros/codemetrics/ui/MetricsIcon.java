@@ -18,7 +18,7 @@ public class MetricsIcon implements Icon {
     private final int width;
     private final int height;
 
-    public MetricsIcon(long summary) {
+    public MetricsIcon(long summary, int size) {
         this.summary = summary + "";
         MetricsConfiguration configuration = MetricsConfiguration.getInstance();
         ArrayList<Integer> complexities = new ArrayList<>();
@@ -60,8 +60,8 @@ public class MetricsIcon implements Icon {
             fontColor = lowFontColor;
         }
 
-        this.width = 12;
-        this.height = 12;
+        this.width = size;
+        this.height = size;
     }
 
     @Override

@@ -11,6 +11,8 @@ import com.intellij.ide.DataManager;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.colors.FontPreferences;
+import com.intellij.openapi.editor.colors.impl.AppEditorFontOptions;
 import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.ui.popup.JBPopup;
@@ -72,6 +74,8 @@ public class MetricsLineMarkerProvider implements LineMarkerProvider {
 
         MetricsConfiguration configuration = MetricsConfiguration.getInstance();
         MetricsModel metrics = metricsParser.getMetrics(firstElement.getContainingFile());
+        FontPreferences fontPreferences = AppEditorFontOptions.getInstance().getFontPreferences();
+        int lineHeight = fontPreferences.getSize(fontPreferences.getFontFamily());
 
         Set<MetricsMarkerInfo> markers = streamMetricsModels(metrics)
                 .filter(p -> p.visible)
@@ -82,8 +86,8 @@ public class MetricsLineMarkerProvider implements LineMarkerProvider {
 
                         ASTNode node = relevantModel.node.getNode().findChildByType(JavaTokenType.IDENTIFIER);
                         if (node != null) {
-                            return new MetricsMarkerInfo(node.getPsi(), collectedComplexity,
-                                    new MarkerType("CodeMetricsLineMarker", tooltip, new MyLineMarkerNavigator(relevantModel)));
+                            return new MetricsMarkerInfo(node.getPsi(),
+                                    new MarkerType("CodeMetricsLineMarker", tooltip, new MyLineMarkerNavigator(relevantModel)), new MetricsIcon(collectedComplexity, lineHeight));
                         }
                     }
                     return null;

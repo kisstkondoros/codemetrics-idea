@@ -11,8 +11,8 @@ import static com.intellij.codeHighlighting.Pass.UPDATE_ALL;
 
 public class MetricsMarkerInfo extends LineMarkerInfo<PsiElement> {
 
-    public MetricsMarkerInfo(@NotNull PsiElement element, long collectedComplexity, @NotNull MarkerType markerType) {
-        super(element, element.getTextRange(), new MetricsIcon(collectedComplexity), UPDATE_ALL, markerType.getTooltip(),
+    public MetricsMarkerInfo(@NotNull PsiElement element, @NotNull MarkerType markerType, MetricsIcon icon) {
+        super(element, element.getTextRange(), icon, UPDATE_ALL, markerType.getTooltip(),
                 markerType.getNavigationHandler(), GutterIconRenderer.Alignment.LEFT);
     }
 
