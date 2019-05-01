@@ -14,6 +14,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.ui.popup.JBPopup;
+import com.intellij.pom.Navigatable;
 import com.intellij.psi.*;
 import com.intellij.psi.util.PsiUtilBase;
 import com.intellij.refactoring.JavaRefactoringActionHandlerFactory;
@@ -112,10 +113,11 @@ public class MetricsLineMarkerProvider implements LineMarkerProvider {
                                 @Override
                                 public void consume(List<PsiElement> selectedElements) {
                                     for (PsiElement element : selectedElements) {
-                                        if (element instanceof NavigatablePsiElement) {
-                                            NavigatablePsiElement navigatablePsiElement =
-                                                    (NavigatablePsiElement) element;
-                                            navigatablePsiElement.navigate(true);
+                                        if (element instanceof Navigatable) {
+                                            Navigatable navigatable = (Navigatable) element;
+                                            if (navigatable.canNavigate()) {
+                                                navigatable.navigate(true);
+                                            }
                                         }
 
                                         if (editor instanceof EditorImpl) {
