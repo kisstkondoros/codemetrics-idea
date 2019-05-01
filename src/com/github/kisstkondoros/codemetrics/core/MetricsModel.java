@@ -60,7 +60,7 @@ public class MetricsModel {
     }
 
     public String getSummary() {
-        return String.format("+%s - %s: %s", getCollectedComplexity(), description, getTextToShow());
+        return String.format("+%s %s (%s)", getCollectedComplexity(), getTextToShow(), description);
     }
 
     public String getTextToShow() {
