@@ -35,31 +35,23 @@ public class MetricsIcon implements Icon {
 
 
         Color extremeColor = new Color(configuration.complexityColorExtreme, true);
-        Color extremeFontColor = getContrastColor(extremeColor);
         Color highColor = new Color(configuration.complexityColorHigh, true);
-        Color highFontColor = getContrastColor(highColor);
         Color normalColor = new Color(configuration.complexityColorNormal, true);
-        Color normalFontColor = getContrastColor(normalColor);
         Color lowColor = new Color(configuration.complexityColorLow, true);
-        Color lowFontColor = getContrastColor(lowColor);
 
         if (summary >= complexityLevelExtreme) {
             double balance = (summary - complexityLevelHigh) / (double) (complexityLevelExtreme - complexityLevelHigh);
-            color = ColorUtil.mix(highColor, extremeColor, balance);
-            fontColor = ColorUtil.mix(highFontColor, extremeFontColor, balance);
+            color = ColorUtil.mix(extremeColor, highColor, 1d / balance);
         } else if (summary >= complexityLevelHigh) {
             double balance = (summary - complexityLevelNormal) / (double) (complexityLevelHigh - complexityLevelNormal);
-            color = ColorUtil.mix(normalColor, highColor, balance);
-            fontColor = ColorUtil.mix(normalFontColor, highFontColor, balance);
+            color = ColorUtil.mix(highColor, normalColor, 1d / balance);
         } else if (summary >= complexityLevelNormal) {
             double balance = (summary - complexityLevelLow) / (double) (complexityLevelNormal - complexityLevelLow);
-            color = ColorUtil.mix(lowColor, normalColor, balance);
-            fontColor = ColorUtil.mix(lowFontColor, normalFontColor, balance);
+            color = ColorUtil.mix(normalColor, lowColor, 1d / balance);
         } else {
             color = lowColor;
-            fontColor = lowFontColor;
         }
-
+        this.fontColor = getContrastColor(color);
         this.width = size;
         this.height = size;
     }
