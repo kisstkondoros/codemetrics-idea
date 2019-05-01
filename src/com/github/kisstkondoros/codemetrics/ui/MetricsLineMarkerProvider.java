@@ -81,13 +81,15 @@ public class MetricsLineMarkerProvider implements LineMarkerProvider {
                 .filter(p -> p.visible)
                 .map(relevantModel -> {
                     long collectedComplexity = relevantModel.getCollectedComplexity();
-                    if (elements.contains(relevantModel.node) && collectedComplexity >= configuration.hiddenUnder) {
+                    if (collectedComplexity >= configuration.hiddenUnder) {
                         final Function<PsiElement, String> tooltip = psiElement -> relevantModel.toString(configuration);
 
                         ASTNode node = relevantModel.node.getNode().findChildByType(JavaTokenType.IDENTIFIER);
                         if (node != null) {
-                            return new MetricsMarkerInfo(node.getPsi(),
-                                    new MarkerType("CodeMetricsLineMarker", tooltip, new MyLineMarkerNavigator(relevantModel)), new MetricsIcon(collectedComplexity, lineHeight));
+                            PsiElement element = node.getPsi();
+                            if (elements.contains(element)) {
+                                return new MetricsMarkerInfo(element, new MarkerType("CodeMetricsLineMarker", tooltip, new MyLineMarkerNavigator(relevantModel)), new MetricsIcon(collectedComplexity, lineHeight));
+                            }
                         }
                     }
                     return null;
