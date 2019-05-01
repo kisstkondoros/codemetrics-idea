@@ -1,12 +1,18 @@
 <idea-plugin>
   <id>com.github.kisstkondoros.codemetrics</id>
   <name>CodeMetrics</name>
-  <version>0.2</version>
+  <version>1.0.0</version>
   <vendor email="kisstkondoros@gmail.com" url="https://github.com/kisstkondoros">kisstkondoros</vendor>
 
   <description><![CDATA[
       Code metrics is a simple Cyclomatic complexity annotator
     ]]></description>
+  <change-notes><![CDATA[<ul>
+    <li>1.0.0 - Enhance parser and configuration capabilities</li>
+    <li>  0.2 - Adjust supported version based on the verification result</li>
+    <li>  0.1 - First MVP</li>
+    </ul>]]>
+  </change-notes>
 
   <idea-version since-build="182"/>
 
