@@ -2,8 +2,8 @@ package com.github.kisstkondoros.codemetrics.core;
 
 import com.github.kisstkondoros.codemetrics.core.config.MetricsConfiguration;
 import com.google.common.base.Strings;
-import com.intellij.openapi.util.text.LineColumn;
-import com.intellij.openapi.util.text.StringUtil;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
 
@@ -21,6 +21,7 @@ public class MetricsModel {
     public String description;
     public String text;
     public CollectorType collectorType;
+    private Supplier<Long> memoizedComplexityComputation = Suppliers.memoize(this::computeCollectedComplexity);
 
     public MetricsModel(PsiElement node, int complexity, String description, boolean trim, boolean visible, CollectorType collectorType) {
         this.node = node;
@@ -46,6 +47,10 @@ public class MetricsModel {
     }
 
     public long getCollectedComplexity() {
+        return memoizedComplexityComputation.get();
+    }
+
+    private long computeCollectedComplexity() {
         LongSummaryStatistics statistics = this.children.stream().mapToLong(MetricsModel::getCollectedComplexity).summaryStatistics();
 
         if (children.isEmpty()) {
