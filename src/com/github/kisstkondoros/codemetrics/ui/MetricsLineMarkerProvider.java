@@ -1,5 +1,6 @@
 package com.github.kisstkondoros.codemetrics.ui;
 
+import com.github.kisstkondoros.codemetrics.core.CollectorType;
 import com.github.kisstkondoros.codemetrics.core.MetricsModel;
 import com.github.kisstkondoros.codemetrics.core.config.MetricsConfiguration;
 import com.github.kisstkondoros.codemetrics.core.parser.MetricsParser;
@@ -8,16 +9,17 @@ import com.intellij.codeInsight.daemon.LineMarkerProvider;
 import com.intellij.codeInsight.daemon.impl.LineMarkerNavigator;
 import com.intellij.codeInsight.daemon.impl.MarkerType;
 import com.intellij.ide.DataManager;
-import com.intellij.lang.ASTNode;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.colors.FontPreferences;
 import com.intellij.openapi.editor.colors.impl.AppEditorFontOptions;
 import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.project.DumbService;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.pom.Navigatable;
 import com.intellij.psi.*;
+import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.psi.util.PsiUtilBase;
 import com.intellij.refactoring.JavaRefactoringActionHandlerFactory;
 import com.intellij.refactoring.RefactoringActionHandler;
@@ -30,8 +32,8 @@ import org.jetbrains.annotations.Nullable;
 import java.awt.event.MouseEvent;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -68,7 +70,8 @@ public class MetricsLineMarkerProvider implements LineMarkerProvider {
         }
 
         PsiElement firstElement = elements.get(0);
-        if (DumbService.getInstance(firstElement.getProject()).isDumb()) {
+        Project project = firstElement.getProject();
+        if (DumbService.getInstance(project).isDumb()) {
             return;
         }
 
@@ -77,25 +80,27 @@ public class MetricsLineMarkerProvider implements LineMarkerProvider {
         FontPreferences fontPreferences = AppEditorFontOptions.getInstance().getFontPreferences();
         int lineHeight = fontPreferences.getSize(fontPreferences.getFontFamily());
 
-        Set<MetricsMarkerInfo> markers = streamMetricsModels(metrics)
-                .filter(p -> p.visible)
-                .map(relevantModel -> {
-                    long collectedComplexity = relevantModel.getCollectedComplexity();
-                    if (collectedComplexity >= configuration.hiddenUnder) {
-                        final Function<PsiElement, String> tooltip = psiElement -> relevantModel.toString(configuration);
+        Map<PsiElement, MetricsModel> anchorToModelMap = streamMetricsModels(metrics) //
+                .filter(p -> p.visible && CollectorType.SUM.equals(p.collectorType) && p.getCollectedComplexity() >= configuration.hiddenUnder)
+                .collect(Collectors.toMap(p -> PsiTreeUtil.getDeepestVisibleFirst(p.node), p -> p, (duplicate1, duplicate2) -> duplicate1));
 
-                        ASTNode node = relevantModel.node.getNode().findChildByType(JavaTokenType.IDENTIFIER);
-                        if (node != null) {
-                            PsiElement element = node.getPsi();
-                            if (elements.contains(element)) {
-                                return new MetricsMarkerInfo(element, new MarkerType("CodeMetricsLineMarker", tooltip, new MyLineMarkerNavigator(relevantModel)), new MetricsIcon(collectedComplexity, lineHeight));
-                            }
-                        }
+        anchorToModelMap.entrySet().stream()
+                .map(entry -> {
+                    PsiElement anchor = entry.getKey();
+                    if (elements.contains(anchor)) {
+                        MetricsModel model = entry.getValue();
+                        return createMarker(configuration, lineHeight, anchor, model);
                     }
                     return null;
                 })
-                .filter(Objects::nonNull).collect(Collectors.toSet());
-        result.addAll(markers);
+                .filter(Objects::nonNull)
+                .forEach(result::add);
+    }
+
+    @NotNull
+    private MetricsMarkerInfo createMarker(MetricsConfiguration configuration, int lineHeight, PsiElement anchor, MetricsModel model) {
+        final Function<PsiElement, String> tooltip = psiElement -> model.toString(configuration);
+        return new MetricsMarkerInfo(anchor, new MarkerType("CodeMetricsLineMarker", tooltip, new MyLineMarkerNavigator(model)), new MetricsIcon(model.getCollectedComplexity(), lineHeight));
     }
 
     private static class MyLineMarkerNavigator extends LineMarkerNavigator {
