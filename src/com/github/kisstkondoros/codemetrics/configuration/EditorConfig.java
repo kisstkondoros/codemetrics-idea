@@ -49,9 +49,15 @@ public class EditorConfig implements Configurable {
         checkBox(basicFields, "metricsForAnonymousClass", "Show metrics for anonymous classes");
         checkBox(basicFields, "metricsForAClass", "Show metrics for classes");
         checkBox(basicFields, "metricsForMethod", "Show metrics for methods");
-        checkBox(basicFields, "metricsForLambdaExpression", "Show metrics for lambdas");
+        checkBox(basicFields, "metricsForLambdaExpression", "Show metrics for lambda expressions");
 
         /* advanced fields */
+        text(advancedFields, "complexityLevelExtremeDescription", "Description for extreme complexity");
+        text(advancedFields, "complexityLevelHighDescription", "Description for high complexity");
+        text(advancedFields, "complexityLevelNormalDescription", "Description for normal complexity");
+        text(advancedFields, "complexityLevelLowDescription", "Description for low complexity");
+        text(advancedFields, "complexityTemplate", "Template of complexity description");
+
         numeric(advancedFields, "anonymousClass", "Anonymous Class");
         numeric(advancedFields, "arrayAccessExpression", "Array Access Expression");
         numeric(advancedFields, "arrayInitializerExpression", "Array Initializer Expression");
@@ -153,6 +159,10 @@ public class EditorConfig implements Configurable {
 
     private void checkBox(java.util.List<BeanField> fields, String fieldName, String title) {
         fields.add(new CheckBoxField(fieldName, title));
+    }
+
+    private void text(java.util.List<BeanField> fields, String fieldName, String title) {
+        fields.add(new TextField(fieldName, title));
     }
 
     private void numeric(java.util.List<BeanField> fields, String fieldName, String title) {
@@ -385,6 +395,48 @@ public class EditorConfig implements Configurable {
         @Override
         protected Class getValueClass() {
             return Integer.class;
+        }
+    }
+
+
+    private class TextField extends BeanField<JPanel> {
+
+        private JBTextField jbTextField;
+        private String title;
+
+        public TextField(String fieldName, String title) {
+            super(fieldName);
+            this.title = title;
+            jbTextField = new JBTextField();
+        }
+
+        @Override
+        JPanel createComponent() {
+            JPanel jPanel = new JPanel(new HorizontalLayout(8));
+            JLabel label = new JLabel();
+            label.setPreferredSize(new Dimension(300, 20));
+            label.setText(title);
+            int defaultHeight = (int) jbTextField.getPreferredSize().getHeight();
+            jbTextField.setPreferredSize(new Dimension(200, defaultHeight));
+
+            jPanel.add(label);
+            jPanel.add(jbTextField);
+            return jPanel;
+        }
+
+        @Override
+        Object getComponentValue() {
+            return jbTextField.getText();
+        }
+
+        @Override
+        void setComponentValue(Object instance) {
+            jbTextField.setText(instance == null ? null : String.valueOf(instance));
+        }
+
+        @Override
+        protected Class getValueClass() {
+            return String.class;
         }
     }
 
