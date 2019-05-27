@@ -5,7 +5,7 @@
   <vendor email="kisstkondoros@gmail.com" url="https://github.com/kisstkondoros">kisstkondoros</vendor>
 
   <description><![CDATA[
-      Code metrics is a simple Cyclomatic complexity annotator
+      Provides line markers based on a customizable complexity calculation
     ]]></description>
   <change-notes><![CDATA[<ul>
     <li>1.0.0 - Enhance parser and configuration capabilities</li>
