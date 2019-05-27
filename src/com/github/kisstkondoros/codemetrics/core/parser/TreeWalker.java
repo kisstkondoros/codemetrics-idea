@@ -21,7 +21,7 @@ public class TreeWalker {
     }
 
     public MetricsModel walk(PsiElement node) {
-        MetricsModel model = visit(node, 0, "Collector", true);
+        MetricsModel model = visit(node, 0, "Collector", false);
         visitNode(node, model);
         return model;
     }
