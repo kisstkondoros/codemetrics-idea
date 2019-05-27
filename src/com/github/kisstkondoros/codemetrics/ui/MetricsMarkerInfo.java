@@ -7,12 +7,10 @@ import com.intellij.openapi.editor.markup.GutterIconRenderer;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 
-import static com.intellij.codeHighlighting.Pass.UPDATE_ALL;
-
 public class MetricsMarkerInfo extends LineMarkerInfo<PsiElement> {
 
     public MetricsMarkerInfo(@NotNull PsiElement element, @NotNull MarkerType markerType, MetricsIcon icon) {
-        super(element, element.getTextRange(), icon, UPDATE_ALL, markerType.getTooltip(),
+        super(element, element.getTextRange(), icon, markerType.getTooltip(),
                 markerType.getNavigationHandler(), GutterIconRenderer.Alignment.LEFT);
     }
 
