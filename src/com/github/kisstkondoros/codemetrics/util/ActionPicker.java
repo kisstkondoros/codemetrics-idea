@@ -15,33 +15,42 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ActionPicker {
-    public static void showRefactorActionPicker(RelativePoint point, Editor editor, MetricsModel model) {
-        Map<PsiElement, MetricsModel> psiElementToModelMap =
-                Stream.concat(Stream.of(model), model.getChildren().stream()).filter(p -> p.getCollectedComplexity() >
-                        0).collect(Collectors.toMap(MetricsModel::getNode, Function.identity()));
+  public static void showRefactorActionPicker(
+      RelativePoint point, Editor editor, MetricsModel model) {
+    Map<PsiElement, MetricsModel> psiElementToModelMap =
+        Stream.concat(Stream.of(model), model.getChildren().stream())
+            .filter(p -> p.getCollectedComplexity() > 0)
+            .collect(Collectors.toMap(MetricsModel::getNode, Function.identity()));
 
-        Comparator<MetricsModel> metricsModelComparator =
-                Comparator.comparing((MetricsModel p) -> p.getNode().getTextOffset());
+    Comparator<MetricsModel> metricsModelComparator =
+        Comparator.comparing((MetricsModel p) -> p.getNode().getTextOffset());
 
-        List<PsiElement> psiElements =
-                psiElementToModelMap.values().stream().sorted(metricsModelComparator).map(MetricsModel::getNode).collect(Collectors.toList());
+    List<PsiElement> psiElements =
+        psiElementToModelMap.values().stream()
+            .sorted(metricsModelComparator)
+            .map(MetricsModel::getNode)
+            .collect(Collectors.toList());
 
-        JBPopup jbPopup =
-                PsiElementPicker.navigateOrCreatePopup(psiElements, "Complexity increasing elements", "Elements",
-                        new MetricsCellRenderer(psiElementToModelMap), ActionPicker::onItemPicked);
-        if (jbPopup != null && editor != null) {
-            jbPopup.show(point);
-        }
+    JBPopup jbPopup =
+        PsiElementPicker.navigateOrCreatePopup(
+            psiElements,
+            "Complexity increasing elements",
+            "Elements",
+            new MetricsCellRenderer(psiElementToModelMap),
+            ActionPicker::onItemPicked);
+    if (jbPopup != null && editor != null) {
+      jbPopup.show(point);
     }
+  }
 
-    private static void onItemPicked(List<PsiElement> selectedElements) {
-        for (PsiElement element : selectedElements) {
-            if (element instanceof Navigatable) {
-                Navigatable navigatable = (Navigatable) element;
-                if (navigatable.canNavigate()) {
-                    navigatable.navigate(true);
-                }
-            }
+  private static void onItemPicked(List<PsiElement> selectedElements) {
+    for (PsiElement element : selectedElements) {
+      if (element instanceof Navigatable) {
+        Navigatable navigatable = (Navigatable) element;
+        if (navigatable.canNavigate()) {
+          navigatable.navigate(true);
         }
+      }
     }
+  }
 }

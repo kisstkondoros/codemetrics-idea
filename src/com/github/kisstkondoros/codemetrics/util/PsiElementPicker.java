@@ -20,47 +20,59 @@ import java.util.List;
 
 public class PsiElementPicker {
 
-    private PsiElementPicker() {
+  private PsiElementPicker() {}
+
+  @Nullable
+  public static JBPopup navigateOrCreatePopup(
+      final List<PsiElement> targets,
+      final String title,
+      final String findUsagesTitle,
+      final ListCellRenderer<PsiElement> listRenderer,
+      final Consumer<List<PsiElement>> consumer) {
+    if (targets.isEmpty()) return null;
+    if (targets.size() == 1) {
+      consumer.consume(targets);
+      return null;
+    }
+    final CollectionListModel<PsiElement> model = new CollectionListModel<>(targets);
+    final JList<PsiElement> list = new JBList<>(model);
+    HintUpdateSupply.installHintUpdateSupply(list, selectedValue -> (PsiElement) selectedValue);
+
+    list.setCellRenderer(listRenderer);
+
+    final IPopupChooserBuilder<PsiElement> builder = new PopupChooserBuilder<>(list);
+    if (listRenderer instanceof PsiElementListCellRenderer) {
+      ((PsiElementListCellRenderer) listRenderer).installSpeedSearch(builder);
     }
 
-    @Nullable
-    public static JBPopup navigateOrCreatePopup(final List<PsiElement> targets, final String title,
-                                                final String findUsagesTitle,
-                                                final ListCellRenderer<PsiElement> listRenderer,
-                                                final Consumer<List<PsiElement>> consumer) {
-        if (targets.isEmpty())
-            return null;
-        if (targets.size() == 1) {
-            consumer.consume(targets);
-            return null;
-        }
-        final CollectionListModel<PsiElement> model = new CollectionListModel<>(targets);
-        final JList<PsiElement> list = new JBList<>(model);
-        HintUpdateSupply.installHintUpdateSupply(list, selectedValue -> (PsiElement) selectedValue);
-
-        list.setCellRenderer(listRenderer);
-
-        final IPopupChooserBuilder<PsiElement> builder = new PopupChooserBuilder<>(list);
-        if (listRenderer instanceof PsiElementListCellRenderer) {
-            ((PsiElementListCellRenderer) listRenderer).installSpeedSearch(builder);
-        }
-
-        IPopupChooserBuilder<PsiElement> popupChooserBuilder =
-                builder.setTitle(title).setMovable(true).setResizable(true).setItemChosenCallback(item -> consumer.consume(ImmutableList.of(item))).setCancelCallback(() -> {
-                    HintUpdateSupply.hideHint(list);
-                    return true;
+    IPopupChooserBuilder<PsiElement> popupChooserBuilder =
+        builder
+            .setTitle(title)
+            .setMovable(true)
+            .setResizable(true)
+            .setItemChosenCallback(item -> consumer.consume(ImmutableList.of(item)))
+            .setCancelCallback(
+                () -> {
+                  HintUpdateSupply.hideHint(list);
+                  return true;
                 });
-        final Ref<UsageView> usageView = new Ref<>();
-        if (findUsagesTitle != null) {
-            popupChooserBuilder = popupChooserBuilder.setCouldPin((popup) -> {
+    final Ref<UsageView> usageView = new Ref<>();
+    if (findUsagesTitle != null) {
+      popupChooserBuilder =
+          popupChooserBuilder.setCouldPin(
+              (popup) -> {
                 final List<PsiElement> items = model.getItems();
-                usageView.set(FindUtil.showInUsageView(null, items.toArray(new PsiElement[0]), findUsagesTitle,
+                usageView.set(
+                    FindUtil.showInUsageView(
+                        null,
+                        items.toArray(new PsiElement[0]),
+                        findUsagesTitle,
                         targets.get(0).getProject()));
                 popup.cancel();
                 return false;
-            });
-        }
-
-        return popupChooserBuilder.createPopup();
+              });
     }
+
+    return popupChooserBuilder.createPopup();
+  }
 }
