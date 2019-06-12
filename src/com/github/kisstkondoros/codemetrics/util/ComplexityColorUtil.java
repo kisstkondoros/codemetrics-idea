@@ -1,25 +1,19 @@
-package com.github.kisstkondoros.codemetrics.ui;
+package com.github.kisstkondoros.codemetrics.util;
 
 import com.github.kisstkondoros.codemetrics.core.config.MetricsConfiguration;
 import com.intellij.ui.ColorUtil;
-import com.intellij.util.ui.UIUtil;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import static com.github.kisstkondoros.codemetrics.ui.ColorContrastUtil.getContrastColor;
+import static com.github.kisstkondoros.codemetrics.util.ColorContrastUtil.getContrastColor;
 
-public class MetricsIcon implements Icon {
-    private final String summary;
-    private final Color fontColor;
-    private final Color color;
-    private final int width;
-    private final int height;
+public final class ComplexityColorUtil {
 
-    public MetricsIcon(long summary, int size) {
-        this.summary = summary + "";
+    public static ComplexityColorScheme getColorSchemeForComplexity(long summary) {
+        Color fontColor;
+        Color color;
         MetricsConfiguration configuration = MetricsConfiguration.getInstance();
         ArrayList<Integer> complexities = new ArrayList<>();
         complexities.add(configuration.complexityLevelLow);
@@ -32,7 +26,6 @@ public class MetricsIcon implements Icon {
         Integer complexityLevelNormal = complexities.get(1);
         Integer complexityLevelHigh = complexities.get(2);
         Integer complexityLevelExtreme = complexities.get(3);
-
 
         Color extremeColor = new Color(configuration.complexityColorExtreme, true);
         Color highColor = new Color(configuration.complexityColorHigh, true);
@@ -51,40 +44,25 @@ public class MetricsIcon implements Icon {
         } else {
             color = lowColor;
         }
-        this.fontColor = getContrastColor(color);
-        this.width = size;
-        this.height = size;
+        fontColor = getContrastColor(color);
+        return new ComplexityColorScheme(color, fontColor);
     }
 
-    @Override
-    public void paintIcon(Component c, Graphics g, int x, int y) {
-        UIUtil.applyRenderingHints(g);
+    public static class ComplexityColorScheme {
+        private Color color;
+        private Color fontColor;
 
-        Font originalFont = g.getFont();
-        Color originalColor = g.getColor();
-        g.setColor(color);
-        g.fillRect(x, y, width, height);
+        public ComplexityColorScheme(Color color, Color fontColor) {
+            this.color = color;
+            this.fontColor = fontColor;
+        }
 
-        final Font font = originalFont.deriveFont(Font.BOLD).deriveFont((float) Math.floor(getIconHeight() * 3 / 5d));
+        public Color getColor() {
+            return color;
+        }
 
-        g.setFont(font);
-        y += getIconHeight() - g.getFontMetrics().getDescent();
-        x += (width - g.getFontMetrics(font).stringWidth(summary)) / 2;
-
-        g.setColor(fontColor);
-        g.drawString(summary, x, y);
-
-        g.setFont(originalFont);
-        g.setColor(originalColor);
-    }
-
-    @Override
-    public int getIconWidth() {
-        return width;
-    }
-
-    @Override
-    public int getIconHeight() {
-        return height;
+        public Color getFontColor() {
+            return fontColor;
+        }
     }
 }

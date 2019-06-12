@@ -30,8 +30,8 @@ public class TreeWalker {
         MetricsModel model = getMetrics(element);
         MetricsModel updatedParent = parent;
         if (model != null) {
-            parent.children.add(model);
-            if (model.visible) {
+            parent.getChildren().add(model);
+            if (model.isVisible()) {
                 updatedParent = model;
             }
         }
@@ -47,7 +47,9 @@ public class TreeWalker {
         if (element instanceof PsiArrayAccessExpression) {
             model = visit(element, configuration.arrayAccessExpression, configuration.arrayAccessExpressionDescription);
         } else if (element instanceof PsiArrayInitializerExpression) {
-            model = visit(element, configuration.arrayInitializerExpression, configuration.arrayInitializerExpressionDescription);
+            model =
+                    visit(element, configuration.arrayInitializerExpression,
+                            configuration.arrayInitializerExpressionDescription);
         } else if (element instanceof PsiAssertStatement) {
             model = visit(element, configuration.assertStatement, configuration.assertStatementDescription);
         } else if (element instanceof PsiAssignmentExpression) {
@@ -113,7 +115,9 @@ public class TreeWalker {
         } else if (element instanceof PsiParameterList) {
             model = visit(element, configuration.parameterList, configuration.parameterListDescription);
         } else if (element instanceof PsiParenthesizedExpression) {
-            model = visit(element, configuration.parenthesizedExpression, configuration.parenthesizedExpressionDescription);
+            model =
+                    visit(element, configuration.parenthesizedExpression,
+                            configuration.parenthesizedExpressionDescription);
         } else if (element instanceof PsiPostfixExpression) {
             model = visit(element, configuration.postfixExpression, configuration.postfixExpressionDescription);
         } else if (element instanceof PsiPrefixExpression) {
@@ -121,15 +125,21 @@ public class TreeWalker {
         } else if (element instanceof PsiUnaryExpression) {
             model = visit(element, configuration.unaryExpression, configuration.unaryExpressionDescription);
         } else if (element instanceof PsiImportStaticReferenceElement) {
-            model = visit(element, configuration.importStaticReferenceElement, configuration.importStaticReferenceElementDescription);
+            model =
+                    visit(element, configuration.importStaticReferenceElement,
+                            configuration.importStaticReferenceElementDescription);
         } else if (element instanceof PsiMethodReferenceExpression) {
-            model = visit(element, configuration.methodReferenceExpression, configuration.methodReferenceExpressionDescription);
+            model =
+                    visit(element, configuration.methodReferenceExpression,
+                            configuration.methodReferenceExpressionDescription);
         } else if (element instanceof PsiJavaCodeReferenceElement) {
             model = visit(element, configuration.referenceElement, configuration.referenceElementDescription);
         } else if (element instanceof PsiReferenceList) {
             model = visit(element, configuration.referenceList, configuration.referenceListDescription);
         } else if (element instanceof PsiReferenceParameterList) {
-            model = visit(element, configuration.referenceParameterList, configuration.referenceParameterListDescription);
+            model =
+                    visit(element, configuration.referenceParameterList,
+                            configuration.referenceParameterListDescription);
         } else if (element instanceof PsiTypeParameterList) {
             model = visit(element, configuration.typeParameterList, configuration.typeParameterListDescription);
         } else if (element instanceof PsiReturnStatement) {
@@ -173,9 +183,13 @@ public class TreeWalker {
         } else if (element instanceof PsiAnnotation) {
             model = visit(element, configuration.annotation, configuration.annotationDescription);
         } else if (element instanceof PsiAnnotationParameterList) {
-            model = visit(element, configuration.annotationParameterList, configuration.annotationParameterListDescription);
+            model =
+                    visit(element, configuration.annotationParameterList,
+                            configuration.annotationParameterListDescription);
         } else if (element instanceof PsiArrayInitializerMemberValue) {
-            model = visit(element, configuration.annotationArrayInitializer, configuration.annotationArrayInitializerDescription);
+            model =
+                    visit(element, configuration.annotationArrayInitializer,
+                            configuration.annotationArrayInitializerDescription);
         } else if (element instanceof PsiNameValuePair) {
             model = visit(element, configuration.nameValuePair, configuration.nameValuePairDescription);
         } else if (element instanceof PsiAnnotationMethod) {
@@ -183,7 +197,9 @@ public class TreeWalker {
         } else if (element instanceof PsiEnumConstant) {
             model = visit(element, configuration.enumConstant, configuration.enumConstantDescription);
         } else if (element instanceof PsiEnumConstantInitializer) {
-            model = visit(element, configuration.enumConstantInitializer, configuration.enumConstantInitializerDescription);
+            model =
+                    visit(element, configuration.enumConstantInitializer,
+                            configuration.enumConstantInitializerDescription);
         } else if (element instanceof JavaCodeFragment) {
             model = visit(element, configuration.codeFragment, configuration.codeFragmentDescription);
         } else if (element instanceof PsiPolyadicExpression) {
@@ -191,38 +207,53 @@ public class TreeWalker {
             final IElementType elementType = polyadicExpression.getOperationTokenType();
             if (elementType.equals(JavaTokenType.ANDAND) || elementType.equals(JavaTokenType.OROR)) {
                 int complexity = polyadicExpression.getOperands().length - 1;
-                model = visit(element, complexity * configuration.polyadicExpression, configuration.polyadicExpressionDescription);
+                model = visit(element,
+                        complexity * configuration.polyadicExpression, configuration.polyadicExpressionDescription);
             }
         } else if (element instanceof PsiLambdaExpression) {
-            model = visit(element, configuration.lambdaExpression, configuration.lambdaExpressionDescription, configuration.metricsForLambdaExpression);
+            model =
+                    visit(element, configuration.lambdaExpression, configuration.lambdaExpressionDescription,
+                            configuration.metricsForLambdaExpression);
         } else if (element instanceof PsiJavaModule) {
             model = visit(element, configuration.module, configuration.moduleDescription);
         } else if (element instanceof PsiJavaModuleReferenceElement) {
-            model = visit(element, configuration.moduleReferenceElement, configuration.moduleReferenceElementDescription);
+            model =
+                    visit(element, configuration.moduleReferenceElement,
+                            configuration.moduleReferenceElementDescription);
         } else if (element instanceof PsiRequiresStatement) {
             model = visit(element, configuration.requiresStatement, configuration.requiresStatementDescription);
         } else if (element instanceof PsiPackageAccessibilityStatement) {
-            model = visit(element, configuration.packageAccessibilityStatement, configuration.packageAccessibilityStatementDescription);
+            model =
+                    visit(element, configuration.packageAccessibilityStatement,
+                            configuration.packageAccessibilityStatementDescription);
         } else if (element instanceof PsiUsesStatement) {
             model = visit(element, configuration.usesStatement, configuration.usesStatementDescription);
         } else if (element instanceof PsiProvidesStatement) {
             model = visit(element, configuration.providesStatement, configuration.providesStatementDescription);
         } else if (element instanceof PsiMethod) {
-            model = visit(element, configuration.method, configuration.methodDescription, configuration.metricsForMethod);
+            model =
+                    visit(element, configuration.method, configuration.methodDescription,
+                            configuration.metricsForMethod);
         } else if (element instanceof PsiField) {
             model = visit(element, configuration.field, configuration.fieldDescription);
         } else if (element instanceof PsiAnonymousClass) {
-            model = visit(element, configuration.anonymousClass, configuration.anonymousClassDescription, configuration.metricsForAnonymousClass);
+            model =
+                    visit(element, configuration.anonymousClass, configuration.anonymousClassDescription,
+                            configuration.metricsForAnonymousClass);
         } else if (element instanceof PsiDocTag) {
             model = visit(element, configuration.docTag, configuration.docTagDescription);
         } else if (element instanceof PsiDocTagValue) {
             model = visit(element, configuration.docTagValue, configuration.docTagValueDescription);
         } else if (element instanceof PsiClass) {
-            model = visit(element, configuration.aClass, configuration.aClassDescription, configuration.metricsForAClass);
+            model =
+                    visit(element, configuration.aClass, configuration.aClassDescription,
+                            configuration.metricsForAClass);
         } else if (element instanceof PsiClassInitializer) {
             model = visit(element, configuration.classInitializer, configuration.classInitializerDescription);
         } else if (element instanceof PsiClassObjectAccessExpression) {
-            model = visit(element, configuration.classObjectAccessExpression, configuration.classObjectAccessExpressionDescription);
+            model =
+                    visit(element, configuration.classObjectAccessExpression,
+                            configuration.classObjectAccessExpressionDescription);
         } else if (element instanceof PsiLocalVariable) {
             model = visit(element, configuration.localVariable, configuration.localVariableDescription);
         } else if (element instanceof PsiVariable) {
@@ -236,7 +267,9 @@ public class TreeWalker {
         } else if (element instanceof PsiExpressionList) {
             model = visit(element, configuration.expressionList, configuration.expressionListDescription);
         } else if (element instanceof PsiExpressionListStatement) {
-            model = visit(element, configuration.expressionListStatement, configuration.expressionListStatementDescription);
+            model =
+                    visit(element, configuration.expressionListStatement,
+                            configuration.expressionListStatementDescription);
         } else if (element instanceof PsiExpressionStatement) {
             model = visit(element, configuration.expressionStatement, configuration.expressionStatementDescription);
         } else if (element instanceof PsiStatement) {
@@ -244,7 +277,6 @@ public class TreeWalker {
         }
         return model;
     }
-
 
     private MetricsModel visit(PsiElement node, int complexity, String description) {
         return visit(node, complexity, description, false);
@@ -254,5 +286,4 @@ public class TreeWalker {
         CollectorType collectorType = node instanceof PsiClass ? MAX : SUM;
         return new MetricsModel(node, complexity, description, true, visible, collectorType);
     }
-
 }

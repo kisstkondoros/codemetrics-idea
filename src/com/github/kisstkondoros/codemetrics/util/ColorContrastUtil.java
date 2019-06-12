@@ -1,4 +1,4 @@
-package com.github.kisstkondoros.codemetrics.ui;
+package com.github.kisstkondoros.codemetrics.util;
 
 import java.awt.*;
 

@@ -9,6 +9,4 @@ public class MetricsParser {
         TreeWalker treeWalker = new TreeWalker();
         return treeWalker.walk(root);
     }
-
-
 }

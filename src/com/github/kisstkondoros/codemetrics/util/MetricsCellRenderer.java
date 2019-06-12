@@ -1,19 +1,20 @@
-package com.github.kisstkondoros.codemetrics.ui;
+package com.github.kisstkondoros.codemetrics.util;
 
 import com.github.kisstkondoros.codemetrics.core.MetricsModel;
-import com.github.kisstkondoros.codemetrics.core.ModelLookup;
 import com.intellij.ide.util.DefaultPsiElementCellRenderer;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.util.Map;
+import java.util.Optional;
 
 public class MetricsCellRenderer extends DefaultPsiElementCellRenderer {
 
-    private MetricsModel root;
+    private final Map<PsiElement, MetricsModel> models;
 
-    public MetricsCellRenderer(MetricsModel root) {
-        this.root = root;
+    public MetricsCellRenderer(Map<PsiElement, MetricsModel> models) {
+        this.models = models;
     }
 
     @Override
@@ -34,13 +35,6 @@ public class MetricsCellRenderer extends DefaultPsiElementCellRenderer {
 
     @Override
     public String getElementText(PsiElement element) {
-        MetricsModel metricsModel = ModelLookup.find(root, element);
-
-        if (metricsModel != null) {
-            return metricsModel.getSummary();
-        } else {
-            return super.getElementText(element);
-        }
+        return Optional.ofNullable(models.get(element)).map(MetricsModel::getSummary).orElseGet(() -> super.getElementText(element));
     }
-
 }

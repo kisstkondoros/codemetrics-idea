@@ -8,10 +8,7 @@ import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@State(
-        name = "CodeMetricsConfiguration",
-        storages = {@Storage("CodeMetricsConfiguration.xml")}
-)
+@State(name = "CodeMetricsConfiguration", storages = {@Storage("CodeMetricsConfiguration.xml")})
 public class MetricsConfiguration implements PersistentStateComponent<MetricsConfiguration> {
 
     public static MetricsConfiguration getInstance() {
@@ -244,5 +241,6 @@ public class MetricsConfiguration implements PersistentStateComponent<MetricsCon
     public String usesStatementDescription = "Uses Statement";
     public int providesStatement = 0;
     public String providesStatementDescription = "Provides Statement";
+
 
 }

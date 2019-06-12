@@ -1,4 +1,4 @@
-package com.github.kisstkondoros.codemetrics.ui;
+package com.github.kisstkondoros.codemetrics.util;
 
 import com.google.common.collect.ImmutableList;
 import com.intellij.find.FindUtil;
@@ -13,12 +13,10 @@ import com.intellij.ui.components.JBList;
 import com.intellij.ui.popup.HintUpdateSupply;
 import com.intellij.usages.UsageView;
 import com.intellij.util.Consumer;
-import com.intellij.util.Processor;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.util.List;
-
 
 public class PsiElementPicker {
 
@@ -26,12 +24,12 @@ public class PsiElementPicker {
     }
 
     @Nullable
-    public static JBPopup navigateOrCreatePopup(final List<PsiElement> targets,
-                                                final String title,
+    public static JBPopup navigateOrCreatePopup(final List<PsiElement> targets, final String title,
                                                 final String findUsagesTitle,
                                                 final ListCellRenderer<PsiElement> listRenderer,
                                                 final Consumer<List<PsiElement>> consumer) {
-        if (targets.isEmpty()) return null;
+        if (targets.isEmpty())
+            return null;
         if (targets.size() == 1) {
             consumer.consume(targets);
             return null;
@@ -47,22 +45,17 @@ public class PsiElementPicker {
             ((PsiElementListCellRenderer) listRenderer).installSpeedSearch(builder);
         }
 
-        IPopupChooserBuilder<PsiElement> popupChooserBuilder = builder.
-                setTitle(title).
-                setMovable(true).
-                setResizable(true).
-                setItemChosenCallback(item -> {
-                    consumer.consume(ImmutableList.of(item));
-                }).
-                setCancelCallback(() -> {
+        IPopupChooserBuilder<PsiElement> popupChooserBuilder =
+                builder.setTitle(title).setMovable(true).setResizable(true).setItemChosenCallback(item -> consumer.consume(ImmutableList.of(item))).setCancelCallback(() -> {
                     HintUpdateSupply.hideHint(list);
                     return true;
                 });
         final Ref<UsageView> usageView = new Ref<>();
         if (findUsagesTitle != null) {
-            popupChooserBuilder = popupChooserBuilder.setCouldPin((Processor<JBPopup>) (popup) -> {
+            popupChooserBuilder = popupChooserBuilder.setCouldPin((popup) -> {
                 final List<PsiElement> items = model.getItems();
-                usageView.set(FindUtil.showInUsageView(null, items.toArray(new PsiElement[0]), findUsagesTitle, targets.get(0).getProject()));
+                usageView.set(FindUtil.showInUsageView(null, items.toArray(new PsiElement[0]), findUsagesTitle,
+                        targets.get(0).getProject()));
                 popup.cancel();
                 return false;
             });
@@ -71,4 +64,3 @@ public class PsiElementPicker {
         return popupChooserBuilder.createPopup();
     }
 }
-

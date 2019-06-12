@@ -154,7 +154,6 @@ public class EditorConfig implements Configurable {
         numeric(advancedFields, "packageAccessibilityStatement", "Package Accessibility Statement");
         numeric(advancedFields, "usesStatement", "Uses Statement");
         numeric(advancedFields, "providesStatement", "Provides Statement");
-
     }
 
     private void checkBox(java.util.List<BeanField> fields, String fieldName, String title) {
@@ -208,7 +207,6 @@ public class EditorConfig implements Configurable {
         return tabbedPane;
     }
 
-
     public boolean isModified() {
         return basicFields.stream().anyMatch(f -> f.isModified(configuration)) ||
                 advancedFields.stream().anyMatch(f -> f.isModified(configuration));
@@ -226,11 +224,9 @@ public class EditorConfig implements Configurable {
 
     @Override
     public void disposeUIResources() {
-
     }
 
-
-    private static abstract class BeanField<T extends JComponent> {
+    private abstract static class BeanField<T extends JComponent> {
         String myFieldName;
         T myComponent;
 
@@ -397,7 +393,6 @@ public class EditorConfig implements Configurable {
             return Integer.class;
         }
     }
-
 
     private class TextField extends BeanField<JPanel> {
 

@@ -5,7 +5,7 @@
   <vendor email="kisstkondoros@gmail.com" url="https://github.com/kisstkondoros">kisstkondoros</vendor>
 
   <description><![CDATA[
-      Provides line markers based on a customizable complexity calculation
+      Provides inlay indicators based on a customizable complexity calculation
     ]]></description>
   <change-notes><![CDATA[<ul>
     <li>1.0.0 - Enhance parser and configuration capabilities</li>
@@ -20,7 +20,6 @@
 
 
   <extensions defaultExtensionNs="com.intellij">
-    <codeInsight.lineMarkerProvider language="JAVA" implementationClass="com.github.kisstkondoros.codemetrics.ui.MetricsLineMarkerProvider"/>
     <applicationService serviceImplementation="com.github.kisstkondoros.codemetrics.core.config.MetricsConfiguration" />
     <applicationConfigurable instance="com.github.kisstkondoros.codemetrics.configuration.EditorConfig"/>
   </extensions>
@@ -29,6 +28,9 @@
   </application-components>
 
   <project-components>
+    <component>
+      <implementation-class>com.github.kisstkondoros.codemetrics.inlay.InlayInstaller</implementation-class>
+    </component>
   </project-components>
 
   <actions>
