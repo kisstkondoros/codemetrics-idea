@@ -29,7 +29,10 @@
 
   <project-components>
     <component>
-      <implementation-class>com.github.kisstkondoros.codemetrics.inlay.InlayInstaller</implementation-class>
+      <implementation-class>com.github.kisstkondoros.codemetrics.inlay.EditorListener</implementation-class>
+    </component>
+    <component>
+      <implementation-class>com.github.kisstkondoros.codemetrics.inlay.InlayManager</implementation-class>
     </component>
   </project-components>
 

@@ -5,10 +5,10 @@ import com.intellij.openapi.fileEditor.FileEditorManagerListener;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 
-public class InlayInstaller implements ProjectComponent {
+public class EditorListener implements ProjectComponent {
   private Project project;
 
-  public InlayInstaller(Project project) {
+  public EditorListener(Project project) {
     this.project = project;
   }
 
@@ -17,12 +17,12 @@ public class InlayInstaller implements ProjectComponent {
     project
         .getMessageBus()
         .connect()
-        .subscribe(FileEditorManagerListener.FILE_EDITOR_MANAGER, new InlayManager(project));
+        .subscribe(FileEditorManagerListener.FILE_EDITOR_MANAGER, new InlayListenerManager(project));
   }
 
   @NotNull
   @Override
   public String getComponentName() {
-    return "CodeMetrics.InlayInstaller";
+    return "CodeMetrics.EditorListener";
   }
 }
