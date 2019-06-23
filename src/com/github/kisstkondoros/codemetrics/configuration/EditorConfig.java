@@ -20,8 +20,8 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class EditorConfig implements Configurable {
-
   private final MetricsConfiguration configuration;
+  private final MetricsConfiguration baseConfiguration = new MetricsConfiguration();
   private java.util.List<BeanField> basicFields;
   private java.util.List<BeanField> advancedFields;
 
@@ -131,464 +131,488 @@ public class EditorConfig implements Configurable {
         advancedFields,
         () -> configuration.anonymousClass,
         v -> configuration.anonymousClass = v,
-        "Anonymous Class");
+        baseConfiguration.anonymousClassDescription);
     numeric(
         advancedFields,
         () -> configuration.arrayAccessExpression,
         v -> configuration.arrayAccessExpression = v,
-        "Array Access Expression");
+        baseConfiguration.arrayAccessExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.arrayInitializerExpression,
         v -> configuration.arrayInitializerExpression = v,
-        "Array Initializer Expression");
+        baseConfiguration.arrayInitializerExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.assertStatement,
         v -> configuration.assertStatement = v,
-        "Assert Statement");
+        baseConfiguration.assertStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.assignmentExpression,
         v -> configuration.assignmentExpression = v,
-        "Assignment Expression");
+        baseConfiguration.assignmentExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.binaryExpression,
         v -> configuration.binaryExpression = v,
-        "Binary Expression");
+        baseConfiguration.binaryExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.blockStatement,
         v -> configuration.blockStatement = v,
-        "Block Statement");
+        baseConfiguration.blockStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.breakStatement,
         v -> configuration.breakStatement = v,
-        "Break Statement");
-    numeric(advancedFields, () -> configuration.aClass, v -> configuration.aClass = v, "Class");
+        baseConfiguration.breakStatementDescription);
+    numeric(
+        advancedFields,
+        () -> configuration.aClass,
+        v -> configuration.aClass = v,
+        baseConfiguration.aClassDescription);
     numeric(
         advancedFields,
         () -> configuration.classInitializer,
         v -> configuration.classInitializer = v,
-        "Class Initializer");
+        baseConfiguration.classInitializerDescription);
     numeric(
         advancedFields,
         () -> configuration.classObjectAccessExpression,
         v -> configuration.classObjectAccessExpression = v,
-        "Class Object Access Expression");
+        baseConfiguration.classObjectAccessExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.codeBlock,
         v -> configuration.codeBlock = v,
-        "Code Block");
+        baseConfiguration.codeBlockDescription);
     numeric(
         advancedFields,
         () -> configuration.conditionalExpression,
         v -> configuration.conditionalExpression = v,
-        "Conditional Expression");
+        baseConfiguration.conditionalExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.continueStatement,
         v -> configuration.continueStatement = v,
-        "Continue Statement");
+        baseConfiguration.continueStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.declarationStatement,
         v -> configuration.declarationStatement = v,
-        "Declaration Statement");
+        baseConfiguration.declarationStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.docComment,
         v -> configuration.docComment = v,
-        "Doc Comment");
-    numeric(advancedFields, () -> configuration.docTag, v -> configuration.docTag = v, "Doc Tag");
+        baseConfiguration.docCommentDescription);
+    numeric(
+        advancedFields,
+        () -> configuration.docTag,
+        v -> configuration.docTag = v,
+        baseConfiguration.docTagDescription);
     numeric(
         advancedFields,
         () -> configuration.doWhileStatement,
         v -> configuration.doWhileStatement = v,
-        "Do While Statement");
+        baseConfiguration.doWhileStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.emptyStatement,
         v -> configuration.emptyStatement = v,
-        "Empty Statement");
+        baseConfiguration.emptyStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.expressionList,
         v -> configuration.expressionList = v,
-        "Expression List");
+        baseConfiguration.expressionListDescription);
     numeric(
         advancedFields,
         () -> configuration.expressionListStatement,
         v -> configuration.expressionListStatement = v,
-        "Expression List Statement");
+        baseConfiguration.expressionListStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.expressionStatement,
         v -> configuration.expressionStatement = v,
-        "Expression Statement");
-    numeric(advancedFields, () -> configuration.field, v -> configuration.field = v, "Field");
+        baseConfiguration.expressionStatementDescription);
+    numeric(
+        advancedFields,
+        () -> configuration.field,
+        v -> configuration.field = v,
+        baseConfiguration.fieldDescription);
     numeric(
         advancedFields,
         () -> configuration.forStatement,
         v -> configuration.forStatement = v,
-        "For Statement");
+        baseConfiguration.forStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.foreachStatement,
         v -> configuration.foreachStatement = v,
-        "Foreach Statement");
+        baseConfiguration.foreachStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.ifStatement,
         v -> configuration.ifStatement = v,
-        "If Statement");
+        baseConfiguration.ifStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.importList,
         v -> configuration.importList = v,
-        "Import List");
+        baseConfiguration.importListDescription);
     numeric(
         advancedFields,
         () -> configuration.importStatement,
         v -> configuration.importStatement = v,
-        "Import Statement");
+        baseConfiguration.importStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.importStaticStatement,
         v -> configuration.importStaticStatement = v,
-        "Import Static Statement");
+        baseConfiguration.importStaticStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.inlineDocTag,
         v -> configuration.inlineDocTag = v,
-        "Inline Doc Tag");
+        baseConfiguration.inlineDocTagDescription);
     numeric(
         advancedFields,
         () -> configuration.instanceOfExpression,
         v -> configuration.instanceOfExpression = v,
-        "Instance Of Expression");
+        baseConfiguration.instanceOfExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.labeledStatement,
         v -> configuration.labeledStatement = v,
-        "Labeled Statement");
+        baseConfiguration.labeledStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.literalExpression,
         v -> configuration.literalExpression = v,
-        "Literal Expression");
+        baseConfiguration.literalExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.localVariable,
         v -> configuration.localVariable = v,
-        "Local Variable");
-    numeric(advancedFields, () -> configuration.method, v -> configuration.method = v, "Method");
+        baseConfiguration.localVariableDescription);
+    numeric(
+        advancedFields,
+        () -> configuration.method,
+        v -> configuration.method = v,
+        baseConfiguration.methodDescription);
     numeric(
         advancedFields,
         () -> configuration.methodCallExpression,
         v -> configuration.methodCallExpression = v,
-        "Method Call Expression");
+        baseConfiguration.methodCallExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.modifierList,
         v -> configuration.modifierList = v,
-        "Modifier List");
+        baseConfiguration.modifierListDescription);
     numeric(
         advancedFields,
         () -> configuration.newExpression,
         v -> configuration.newExpression = v,
-        "New Expression");
+        baseConfiguration.newExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.packageStatement,
         v -> configuration.packageStatement = v,
-        "Package Statement");
+        baseConfiguration.packageStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.parameter,
         v -> configuration.parameter = v,
-        "Parameter");
+        baseConfiguration.parameterDescription);
     numeric(
         advancedFields,
         () -> configuration.receiverParameter,
         v -> configuration.receiverParameter = v,
-        "Receiver Parameter");
+        baseConfiguration.receiverParameterDescription);
     numeric(
         advancedFields,
         () -> configuration.parameterList,
         v -> configuration.parameterList = v,
-        "Parameter List");
+        baseConfiguration.parameterListDescription);
     numeric(
         advancedFields,
         () -> configuration.postfixExpression,
         v -> configuration.postfixExpression = v,
-        "Postfix Expression");
+        baseConfiguration.postfixExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.prefixExpression,
         v -> configuration.prefixExpression = v,
-        "Prefix Expression");
+        baseConfiguration.prefixExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.referenceParameterList,
         v -> configuration.referenceParameterList = v,
-        "Reference Parameter List");
+        baseConfiguration.referenceParameterListDescription);
     numeric(
         advancedFields,
         () -> configuration.typeParameterList,
         v -> configuration.typeParameterList = v,
-        "Type Parameter List");
+        baseConfiguration.typeParameterListDescription);
     numeric(
         advancedFields,
         () -> configuration.returnStatement,
         v -> configuration.returnStatement = v,
-        "Return Statement");
+        baseConfiguration.returnStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.superExpression,
         v -> configuration.superExpression = v,
-        "Super Expression");
+        baseConfiguration.superExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.switchLabelStatement,
         v -> configuration.switchLabelStatement = v,
-        "Switch Label Statement");
+        baseConfiguration.switchLabelStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.switchStatement,
         v -> configuration.switchStatement = v,
-        "Switch Statement");
+        baseConfiguration.switchStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.synchronizedStatement,
         v -> configuration.synchronizedStatement = v,
-        "Synchronized Statement");
+        baseConfiguration.synchronizedStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.thisExpression,
         v -> configuration.thisExpression = v,
-        "This Expression");
+        baseConfiguration.thisExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.throwStatement,
         v -> configuration.throwStatement = v,
-        "Throw Statement");
+        baseConfiguration.throwStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.tryStatement,
         v -> configuration.tryStatement = v,
-        "Try Statement");
+        baseConfiguration.tryStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.catchSection,
         v -> configuration.catchSection = v,
-        "Catch Section");
+        baseConfiguration.catchSectionDescription);
     numeric(
         advancedFields,
         () -> configuration.resourceList,
         v -> configuration.resourceList = v,
-        "Resource List");
+        baseConfiguration.resourceListDescription);
     numeric(
         advancedFields,
         () -> configuration.resourceVariable,
         v -> configuration.resourceVariable = v,
-        "Resource Variable");
+        baseConfiguration.resourceVariableDescription);
     numeric(
         advancedFields,
         () -> configuration.resourceExpression,
         v -> configuration.resourceExpression = v,
-        "Resource Expression");
+        baseConfiguration.resourceExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.typeCastExpression,
         v -> configuration.typeCastExpression = v,
-        "Type Cast Expression");
+        baseConfiguration.typeCastExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.whileStatement,
         v -> configuration.whileStatement = v,
-        "While Statement");
+        baseConfiguration.whileStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.typeParameter,
         v -> configuration.typeParameter = v,
-        "Type Parameter");
+        baseConfiguration.typeParameterDescription);
     numeric(
         advancedFields,
         () -> configuration.annotation,
         v -> configuration.annotation = v,
-        "Annotation");
+        baseConfiguration.annotationDescription);
     numeric(
         advancedFields,
         () -> configuration.annotationParameterList,
         v -> configuration.annotationParameterList = v,
-        "Annotation Parameter List");
+        baseConfiguration.annotationParameterListDescription);
     numeric(
         advancedFields,
         () -> configuration.annotationArrayInitializer,
         v -> configuration.annotationArrayInitializer = v,
-        "Annotation Array Initializer");
+        baseConfiguration.annotationArrayInitializerDescription);
     numeric(
         advancedFields,
         () -> configuration.nameValuePair,
         v -> configuration.nameValuePair = v,
-        "Name Value Pair");
+        baseConfiguration.nameValuePairDescription);
     numeric(
         advancedFields,
         () -> configuration.annotationMethod,
         v -> configuration.annotationMethod = v,
-        "Annotation Method");
+        baseConfiguration.annotationMethodDescription);
     numeric(
         advancedFields,
         () -> configuration.enumConstant,
         v -> configuration.enumConstant = v,
-        "Enum Constant");
+        baseConfiguration.enumConstantDescription);
     numeric(
         advancedFields,
         () -> configuration.enumConstantInitializer,
         v -> configuration.enumConstantInitializer = v,
-        "Enum Constant Initializer");
+        baseConfiguration.enumConstantInitializerDescription);
     numeric(
         advancedFields,
         () -> configuration.polyadicExpression,
         v -> configuration.polyadicExpression = v,
-        "Polyadic Expression");
+        baseConfiguration.polyadicExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.lambdaExpression,
         v -> configuration.lambdaExpression = v,
-        "Lambda Expression");
-    numeric(advancedFields, () -> configuration.module, v -> configuration.module = v, "Module");
+        baseConfiguration.lambdaExpressionDescription);
+    numeric(
+        advancedFields,
+        () -> configuration.module,
+        v -> configuration.module = v,
+        baseConfiguration.moduleDescription);
     numeric(
         advancedFields,
         () -> configuration.requiresStatement,
         v -> configuration.requiresStatement = v,
-        "Requires Statement");
+        baseConfiguration.requiresStatementDescription);
 
     numeric(
         advancedFields,
         () -> configuration.usesStatement,
         v -> configuration.usesStatement = v,
-        "Uses Statement");
+        baseConfiguration.usesStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.providesStatement,
         v -> configuration.providesStatement = v,
-        "Provides Statement");
+        baseConfiguration.providesStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.methodRefExpression,
         v -> configuration.methodRefExpression = v,
-        "Method Reference Expression");
-    numeric(advancedFields, () -> configuration.type, v -> configuration.type = v, "Type");
+        baseConfiguration.methodRefExpressionDescription);
+    numeric(
+        advancedFields,
+        () -> configuration.type,
+        v -> configuration.type = v,
+        baseConfiguration.typeDescription);
     numeric(
         advancedFields,
         () -> configuration.diamondType,
         v -> configuration.diamondType = v,
-        "Diamond Type");
+        baseConfiguration.diamondTypeDescription);
     numeric(
         advancedFields,
         () -> configuration.importStaticReference,
         v -> configuration.importStaticReference = v,
-        "Import Static Reference");
+        baseConfiguration.importStaticReferenceDescription);
     numeric(
         advancedFields,
         () -> configuration.providesWithList,
         v -> configuration.providesWithList = v,
-        "Provides With List");
+        baseConfiguration.providesWithListDescription);
     numeric(
         advancedFields,
         () -> configuration.opensStatement,
         v -> configuration.opensStatement = v,
-        "Opens Statement");
+        baseConfiguration.opensStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.exportsStatement,
         v -> configuration.exportsStatement = v,
-        "Exports Statement");
+        baseConfiguration.exportsStatementDescription);
     numeric(
         advancedFields,
         () -> configuration.throwsList,
         v -> configuration.throwsList = v,
-        "Throws List");
+        baseConfiguration.throwsListDescription);
     numeric(
         advancedFields,
         () -> configuration.extendsBoundList,
         v -> configuration.extendsBoundList = v,
-        "Extends Bound List");
+        baseConfiguration.extendsBoundListDescription);
     numeric(
         advancedFields,
         () -> configuration.implementsList,
         v -> configuration.implementsList = v,
-        "Implements List");
+        baseConfiguration.implementsListDescription);
     numeric(
         advancedFields,
         () -> configuration.extendsList,
         v -> configuration.extendsList = v,
-        "Extends List");
+        baseConfiguration.extendsListDescription);
     numeric(
         advancedFields,
         () -> configuration.emptyExpression,
         v -> configuration.emptyExpression = v,
-        "Empty Expression");
+        baseConfiguration.emptyExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.switchExpression,
         v -> configuration.switchExpression = v,
-        "Switch Expression");
+        baseConfiguration.switchExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.switchLabeledRule,
         v -> configuration.switchLabeledRule = v,
-        "Switch Labeled Rule");
+        baseConfiguration.switchLabeledRuleDescription);
     numeric(
         advancedFields,
         () -> configuration.moduleReference,
         v -> configuration.moduleReference = v,
-        "Module Reference");
+        baseConfiguration.moduleReferenceDescription);
     numeric(
         advancedFields,
         () -> configuration.javaCodeReference,
         v -> configuration.javaCodeReference = v,
-        "JavaCode Reference");
+        baseConfiguration.javaCodeReferenceDescription);
     numeric(
         advancedFields,
         () -> configuration.referenceExpression,
         v -> configuration.referenceExpression = v,
-        "Reference Expression");
+        baseConfiguration.referenceExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.parenthExpression,
         v -> configuration.parenthExpression = v,
-        "Parenthesized Expression");
+        baseConfiguration.parenthExpressionDescription);
     numeric(
         advancedFields,
         () -> configuration.docMethodOrFieldRef,
         v -> configuration.docMethodOrFieldRef = v,
-        "Documentation Method Or Field Ref");
+        baseConfiguration.docMethodOrFieldRefDescription);
     numeric(
         advancedFields,
         () -> configuration.docParameterRef,
         v -> configuration.docParameterRef = v,
-        "Documentation Parameter Ref");
+        baseConfiguration.docParameterRefDescription);
     numeric(
         advancedFields,
         () -> configuration.docTagValueElement,
         v -> configuration.docTagValueElement = v,
-        "Documentation Tag Value Element");
+        baseConfiguration.docTagValueElementDescription);
     numeric(
         advancedFields,
         () -> configuration.docReferenceHolder,
         v -> configuration.docReferenceHolder = v,
-        "Documentation Reference Holder");
+        baseConfiguration.docReferenceHolderDescription);
     numeric(
         advancedFields,
         () -> configuration.docTypeHolder,
         v -> configuration.docTypeHolder = v,
-        "Documentation Type Holder");
+        baseConfiguration.docTypeHolderDescription);
   }
 
   private void checkBox(
