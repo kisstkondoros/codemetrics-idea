@@ -59,7 +59,7 @@ public class InlayManager implements ProjectComponent {
           .filter(Objects::nonNull)
           .filter(predicate)
           .map((MetricsModel current) -> streamMetricsModels(current, predicate))
-          .reduce(Stream.of(parentNode), Stream::concat);
+          .reduce(Stream.of(parentNode).filter(predicate), Stream::concat);
     }
   }
 
