@@ -666,6 +666,7 @@ public class EditorConfig implements Configurable {
   public void apply() {
     basicFields.forEach(BeanField::apply);
     advancedFields.forEach(BeanField::apply);
+    configuration.notifyListeners();
   }
 
   public void reset() {

@@ -1,5 +1,6 @@
 package com.github.kisstkondoros.codemetrics.inlay;
 
+import com.github.kisstkondoros.codemetrics.core.config.MetricsConfiguration;
 import com.github.kisstkondoros.codemetrics.util.Debouncer;
 import com.google.common.collect.Maps;
 import com.intellij.openapi.Disposable;
@@ -48,7 +49,19 @@ class InlayListenerManager implements FileEditorManagerListener {
       inlayHighlighter.installInlayHighlighter(editor);
 
       DocumentListener listener = registerDocumentListener(file, editor);
-      disposables.put(file.getUrl(), () -> editor.getDocument().removeDocumentListener(listener));
+      MetricsConfiguration configuration = MetricsConfiguration.getInstance();
+      Disposable refreshListener =
+          configuration.addListener(
+              () -> {
+                InlayManager inlayManager = project.getComponent(InlayManager.class);
+                inlayManager.updateInlays(editor, file);
+              });
+      disposables.put(
+          file.getUrl(),
+          () -> {
+            editor.getDocument().removeDocumentListener(listener);
+            refreshListener.dispose();
+          });
     }
   }
 

@@ -1,5 +1,7 @@
 package com.github.kisstkondoros.codemetrics.core.config;
 
+import com.google.common.collect.ImmutableList;
+import com.intellij.openapi.Disposable;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
@@ -8,10 +10,23 @@ import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @State(
     name = "CodeMetricsConfiguration",
     storages = {@Storage("CodeMetricsConfiguration.xml")})
 public class MetricsConfiguration implements PersistentStateComponent<MetricsConfiguration> {
+  private transient List<Runnable> listeners = new LinkedList<>();
+
+  public void notifyListeners() {
+    ImmutableList.copyOf(listeners).forEach(Runnable::run);
+  }
+
+  public Disposable addListener(Runnable listener) {
+    listeners.add(listener);
+    return () -> listeners.remove(listener);
+  }
 
   public static MetricsConfiguration getInstance() {
     return ServiceManager.getService(MetricsConfiguration.class);
