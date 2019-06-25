@@ -20,7 +20,7 @@ public class HandlerRegistry {
 
     ComplexityHandler polyadicExpressionHandler =
         genericHandler.create(c -> c.polyadicExpression, c -> c.polyadicExpressionDescription);
-    handlers.put(
+    register(
         POLYADIC_EXPRESSION,
         configuration ->
             e -> {
@@ -39,289 +39,289 @@ public class HandlerRegistry {
                   original.getDescription(),
                   original.isVisible());
             });
-    handlers.put(
+    register(
         CLASS,
         genericHandler.create(c -> c.aClass, c -> c.aClassDescription, c -> c.metricsForAClass));
-    handlers.put(
+    register(
         ANONYMOUS_CLASS,
         genericHandler.create(
             c -> c.anonymousClass,
             c -> c.anonymousClassDescription,
             c -> c.metricsForAnonymousClass));
-    handlers.put(
+    register(
         ENUM_CONSTANT_INITIALIZER,
         genericHandler.create(
             c -> c.enumConstantInitializer, c -> c.enumConstantInitializerDescription));
-    handlers.put(
+    register(
         TYPE_PARAMETER_LIST,
         genericHandler.create(c -> c.typeParameterList, c -> c.typeParameterListDescription));
-    handlers.put(
+    register(
         TYPE_PARAMETER,
         genericHandler.create(c -> c.typeParameter, c -> c.typeParameterDescription));
-    handlers.put(
-        IMPORT_LIST, genericHandler.create(c -> c.importList, c -> c.importListDescription));
-    handlers.put(
+    register(IMPORT_LIST, genericHandler.create(c -> c.importList, c -> c.importListDescription));
+    register(
         IMPORT_STATEMENT,
         genericHandler.create(c -> c.importStatement, c -> c.importStatementDescription));
-    handlers.put(
+    register(
         IMPORT_STATIC_STATEMENT,
         genericHandler.create(
             c -> c.importStaticStatement, c -> c.importStaticStatementDescription));
-    handlers.put(
+    register(
         MODIFIER_LIST, genericHandler.create(c -> c.modifierList, c -> c.modifierListDescription));
-    handlers.put(
-        ANNOTATION, genericHandler.create(c -> c.annotation, c -> c.annotationDescription));
-    handlers.put(
+    register(ANNOTATION, genericHandler.create(c -> c.annotation, c -> c.annotationDescription));
+    register(
         NAME_VALUE_PAIR,
         genericHandler.create(c -> c.nameValuePair, c -> c.nameValuePairDescription));
-    handlers.put(
+    register(
         LITERAL_EXPRESSION,
         genericHandler.create(c -> c.literalExpression, c -> c.literalExpressionDescription));
-    handlers.put(
+    register(
         ANNOTATION_PARAMETER_LIST,
         genericHandler.create(
             c -> c.annotationParameterList, c -> c.annotationParameterListDescription));
-    handlers.put(
+    register(
         EXTENDS_LIST, genericHandler.create(c -> c.extendsList, c -> c.extendsListDescription));
-    handlers.put(
+    register(
         IMPLEMENTS_LIST,
         genericHandler.create(c -> c.implementsList, c -> c.implementsListDescription));
-    handlers.put(FIELD, genericHandler.create(c -> c.field, c -> c.fieldDescription));
-    handlers.put(
+    register(FIELD, genericHandler.create(c -> c.field, c -> c.fieldDescription));
+    register(
         ENUM_CONSTANT, genericHandler.create(c -> c.enumConstant, c -> c.enumConstantDescription));
-    handlers.put(
+    register(
         METHOD,
         genericHandler.create(c -> c.method, c -> c.methodDescription, c -> c.metricsForMethod));
-    handlers.put(
+    register(
         ANNOTATION_METHOD,
         genericHandler.create(c -> c.annotationMethod, c -> c.annotationMethodDescription));
-    handlers.put(
+    register(
         CLASS_INITIALIZER,
         genericHandler.create(c -> c.classInitializer, c -> c.classInitializerDescription));
-    handlers.put(PARAMETER, genericHandler.create(c -> c.parameter, c -> c.parameterDescription));
-    handlers.put(
+    register(PARAMETER, genericHandler.create(c -> c.parameter, c -> c.parameterDescription));
+    register(
         PARAMETER_LIST,
         genericHandler.create(c -> c.parameterList, c -> c.parameterListDescription));
-    handlers.put(
+    register(
         EXTENDS_BOUND_LIST,
         genericHandler.create(c -> c.extendsBoundList, c -> c.extendsBoundListDescription));
-    handlers.put(
-        THROWS_LIST, genericHandler.create(c -> c.throwsList, c -> c.throwsListDescription));
-    handlers.put(
+    register(THROWS_LIST, genericHandler.create(c -> c.throwsList, c -> c.throwsListDescription));
+    register(
         LAMBDA_EXPRESSION,
         genericHandler.create(
             c -> c.lambdaExpression,
             c -> c.lambdaExpressionDescription,
             c -> c.metricsForLambdaExpression));
-    handlers.put(
+    register(
         METHOD_REF_EXPRESSION,
         genericHandler.create(c -> c.methodRefExpression, c -> c.methodRefExpressionDescription));
-    handlers.put(MODULE, genericHandler.create(c -> c.module, c -> c.moduleDescription));
-    handlers.put(
+    register(MODULE, genericHandler.create(c -> c.module, c -> c.moduleDescription));
+    register(
         REQUIRES_STATEMENT,
         genericHandler.create(c -> c.requiresStatement, c -> c.requiresStatementDescription));
-    handlers.put(
+    register(
         EXPORTS_STATEMENT,
         genericHandler.create(c -> c.exportsStatement, c -> c.exportsStatementDescription));
-    handlers.put(
+    register(
         OPENS_STATEMENT,
         genericHandler.create(c -> c.opensStatement, c -> c.opensStatementDescription));
-    handlers.put(
+    register(
         USES_STATEMENT,
         genericHandler.create(c -> c.usesStatement, c -> c.usesStatementDescription));
-    handlers.put(
+    register(
         PROVIDES_STATEMENT,
         genericHandler.create(c -> c.providesStatement, c -> c.providesStatementDescription));
-    handlers.put(
+    register(
         PROVIDES_WITH_LIST,
         genericHandler.create(c -> c.providesWithList, c -> c.providesWithListDescription));
-    handlers.put(
+    register(
         IMPORT_STATIC_REFERENCE,
         genericHandler.create(
             c -> c.importStaticReference, c -> c.importStaticReferenceDescription));
-    handlers.put(TYPE, genericHandler.create(c -> c.type, c -> c.typeDescription));
-    handlers.put(
+    register(TYPE, genericHandler.create(c -> c.type, c -> c.typeDescription));
+    register(
         DIAMOND_TYPE, genericHandler.create(c -> c.diamondType, c -> c.diamondTypeDescription));
-    handlers.put(
+    register(
         REFERENCE_PARAMETER_LIST,
         genericHandler.create(
             c -> c.referenceParameterList, c -> c.referenceParameterListDescription));
-    handlers.put(
+    register(
         JAVA_CODE_REFERENCE,
         genericHandler.create(c -> c.javaCodeReference, c -> c.javaCodeReferenceDescription));
-    handlers.put(
+    register(
         PACKAGE_STATEMENT,
         genericHandler.create(c -> c.packageStatement, c -> c.packageStatementDescription));
-    handlers.put(
+    register(
         LOCAL_VARIABLE,
         genericHandler.create(c -> c.localVariable, c -> c.localVariableDescription));
-    handlers.put(
+    register(
         REFERENCE_EXPRESSION,
         genericHandler.create(c -> c.referenceExpression, c -> c.referenceExpressionDescription));
-    handlers.put(
+    register(
         THIS_EXPRESSION,
         genericHandler.create(c -> c.thisExpression, c -> c.thisExpressionDescription));
-    handlers.put(
+    register(
         SUPER_EXPRESSION,
         genericHandler.create(c -> c.superExpression, c -> c.superExpressionDescription));
-    handlers.put(
+    register(
         PARENTH_EXPRESSION,
         genericHandler.create(c -> c.parenthExpression, c -> c.parenthExpressionDescription));
-    handlers.put(
+    register(
         METHOD_CALL_EXPRESSION,
         genericHandler.create(c -> c.methodCallExpression, c -> c.methodCallExpressionDescription));
-    handlers.put(
+    register(
         TYPE_CAST_EXPRESSION,
         genericHandler.create(c -> c.typeCastExpression, c -> c.typeCastExpressionDescription));
-    handlers.put(
+    register(
         PREFIX_EXPRESSION,
         genericHandler.create(c -> c.prefixExpression, c -> c.prefixExpressionDescription));
-    handlers.put(
+    register(
         POSTFIX_EXPRESSION,
         genericHandler.create(c -> c.postfixExpression, c -> c.postfixExpressionDescription));
-    handlers.put(
+    register(
         BINARY_EXPRESSION,
         genericHandler.create(c -> c.binaryExpression, c -> c.binaryExpressionDescription));
-    handlers.put(
+    register(
         CONDITIONAL_EXPRESSION,
         genericHandler.create(
             c -> c.conditionalExpression, c -> c.conditionalExpressionDescription));
-    handlers.put(
+    register(
         ASSIGNMENT_EXPRESSION,
         genericHandler.create(c -> c.assignmentExpression, c -> c.assignmentExpressionDescription));
-    handlers.put(
+    register(
         NEW_EXPRESSION,
         genericHandler.create(c -> c.newExpression, c -> c.newExpressionDescription));
-    handlers.put(
+    register(
         ARRAY_ACCESS_EXPRESSION,
         genericHandler.create(
             c -> c.arrayAccessExpression, c -> c.arrayAccessExpressionDescription));
-    handlers.put(
+    register(
         ARRAY_INITIALIZER_EXPRESSION,
         genericHandler.create(
             c -> c.arrayInitializerExpression, c -> c.arrayInitializerExpressionDescription));
-    handlers.put(
+    register(
         INSTANCE_OF_EXPRESSION,
         genericHandler.create(c -> c.instanceOfExpression, c -> c.instanceOfExpressionDescription));
-    handlers.put(
+    register(
         CLASS_OBJECT_ACCESS_EXPRESSION,
         genericHandler.create(
             c -> c.classObjectAccessExpression, c -> c.classObjectAccessExpressionDescription));
-    handlers.put(
+    register(
         EMPTY_EXPRESSION,
         genericHandler.create(c -> c.emptyExpression, c -> c.emptyExpressionDescription));
-    handlers.put(
+    register(
         EXPRESSION_LIST,
         genericHandler.create(c -> c.expressionList, c -> c.expressionListDescription));
-    handlers.put(
+    register(
         EMPTY_STATEMENT,
         genericHandler.create(c -> c.emptyStatement, c -> c.emptyStatementDescription));
-    handlers.put(
+    register(
         BLOCK_STATEMENT,
         genericHandler.create(c -> c.blockStatement, c -> c.blockStatementDescription));
-    handlers.put(
+    register(
         EXPRESSION_STATEMENT,
         genericHandler.create(c -> c.expressionStatement, c -> c.expressionStatementDescription));
-    handlers.put(
+    register(
         EXPRESSION_LIST_STATEMENT,
         genericHandler.create(
             c -> c.expressionListStatement, c -> c.expressionListStatementDescription));
-    handlers.put(
+    register(
         DECLARATION_STATEMENT,
         genericHandler.create(c -> c.declarationStatement, c -> c.declarationStatementDescription));
-    handlers.put(
+    register(
         IF_STATEMENT, genericHandler.create(c -> c.ifStatement, c -> c.ifStatementDescription));
-    handlers.put(
+    register(
         WHILE_STATEMENT,
         genericHandler.create(c -> c.whileStatement, c -> c.whileStatementDescription));
-    handlers.put(
+    register(
         FOR_STATEMENT, genericHandler.create(c -> c.forStatement, c -> c.forStatementDescription));
-    handlers.put(
+    register(
         FOREACH_STATEMENT,
         genericHandler.create(c -> c.foreachStatement, c -> c.foreachStatementDescription));
-    handlers.put(
+    register(
         DO_WHILE_STATEMENT,
         genericHandler.create(c -> c.doWhileStatement, c -> c.doWhileStatementDescription));
-    handlers.put(
+    register(
         SWITCH_STATEMENT,
         genericHandler.create(c -> c.switchStatement, c -> c.switchStatementDescription));
-    handlers.put(
+    register(
         SWITCH_EXPRESSION,
         genericHandler.create(c -> c.switchExpression, c -> c.switchExpressionDescription));
-    handlers.put(
+    register(
         SWITCH_LABEL_STATEMENT,
         genericHandler.create(c -> c.switchLabelStatement, c -> c.switchLabelStatementDescription));
-    handlers.put(
+    register(
         SWITCH_LABELED_RULE,
         genericHandler.create(c -> c.switchLabeledRule, c -> c.switchLabeledRuleDescription));
-    handlers.put(
+    register(
         BREAK_STATEMENT,
         genericHandler.create(c -> c.breakStatement, c -> c.breakStatementDescription));
-    handlers.put(
+    register(
         CONTINUE_STATEMENT,
         genericHandler.create(c -> c.continueStatement, c -> c.continueStatementDescription));
-    handlers.put(
+    register(
         RETURN_STATEMENT,
         genericHandler.create(c -> c.returnStatement, c -> c.returnStatementDescription));
-    handlers.put(
+    register(
         THROW_STATEMENT,
         genericHandler.create(c -> c.throwStatement, c -> c.throwStatementDescription));
-    handlers.put(
+    register(
         SYNCHRONIZED_STATEMENT,
         genericHandler.create(
             c -> c.synchronizedStatement, c -> c.synchronizedStatementDescription));
-    handlers.put(
+    register(
         TRY_STATEMENT, genericHandler.create(c -> c.tryStatement, c -> c.tryStatementDescription));
-    handlers.put(
+    register(
         RESOURCE_LIST, genericHandler.create(c -> c.resourceList, c -> c.resourceListDescription));
-    handlers.put(
+    register(
         RESOURCE_VARIABLE,
         genericHandler.create(c -> c.resourceVariable, c -> c.resourceVariableDescription));
-    handlers.put(
+    register(
         RESOURCE_EXPRESSION,
         genericHandler.create(c -> c.resourceExpression, c -> c.resourceExpressionDescription));
-    handlers.put(
+    register(
         CATCH_SECTION, genericHandler.create(c -> c.catchSection, c -> c.catchSectionDescription));
-    handlers.put(
+    register(
         LABELED_STATEMENT,
         genericHandler.create(c -> c.labeledStatement, c -> c.labeledStatementDescription));
-    handlers.put(
+    register(
         ASSERT_STATEMENT,
         genericHandler.create(c -> c.assertStatement, c -> c.assertStatementDescription));
-    handlers.put(
+    register(
         ANNOTATION_ARRAY_INITIALIZER,
         genericHandler.create(
             c -> c.annotationArrayInitializer, c -> c.annotationArrayInitializerDescription));
-    handlers.put(
+    register(
         RECEIVER_PARAMETER,
         genericHandler.create(c -> c.receiverParameter, c -> c.receiverParameterDescription));
-    handlers.put(
+    register(
         MODULE_REFERENCE,
         genericHandler.create(c -> c.moduleReference, c -> c.moduleReferenceDescription));
-    handlers.put(CODE_BLOCK, genericHandler.create(c -> c.codeBlock, c -> c.codeBlockDescription));
-    handlers.put(
-        DOC_COMMENT, genericHandler.create(c -> c.docComment, c -> c.docCommentDescription));
-    handlers.put(DOC_TAG, genericHandler.create(c -> c.docTag, c -> c.docTagDescription));
-    handlers.put(
+    register(CODE_BLOCK, genericHandler.create(c -> c.codeBlock, c -> c.codeBlockDescription));
+    register(DOC_COMMENT, genericHandler.create(c -> c.docComment, c -> c.docCommentDescription));
+    register(DOC_TAG, genericHandler.create(c -> c.docTag, c -> c.docTagDescription));
+    register(
         DOC_INLINE_TAG, genericHandler.create(c -> c.inlineDocTag, c -> c.inlineDocTagDescription));
-    handlers.put(
+    register(
         DOC_METHOD_OR_FIELD_REF,
         genericHandler.create(c -> c.docMethodOrFieldRef, c -> c.docMethodOrFieldRefDescription));
-    handlers.put(
+    register(
         DOC_PARAMETER_REF,
         genericHandler.create(c -> c.docParameterRef, c -> c.docParameterRefDescription));
-    handlers.put(
+    register(
         DOC_TAG_VALUE_ELEMENT,
         genericHandler.create(c -> c.docTagValueElement, c -> c.docTagValueElementDescription));
-    handlers.put(
+    register(
         DOC_REFERENCE_HOLDER,
         genericHandler.create(c -> c.docReferenceHolder, c -> c.docReferenceHolderDescription));
-    handlers.put(
+    register(
         DOC_TYPE_HOLDER,
         genericHandler.create(c -> c.docTypeHolder, c -> c.docTypeHolderDescription));
   }
 
   static ComplexityHandler get(IElementType type) {
     return handlers.get(type);
+  }
+
+  static void register(IElementType type, ComplexityHandler handler) {
+    handlers.put(type, handler);
   }
 }
