@@ -24,11 +24,13 @@ public class EditorConfig implements Configurable {
   private final MetricsConfiguration baseConfiguration = new MetricsConfiguration();
   private java.util.List<BeanField> basicFields;
   private java.util.List<BeanField> advancedFields;
+  private java.util.List<BeanField> miscFields;
 
   protected EditorConfig() {
     configuration = MetricsConfiguration.getInstance();
     basicFields = new ArrayList<>();
     advancedFields = new ArrayList<>();
+    miscFields = new ArrayList<>();
 
     /* basic fields */
     this.colorPicker(
@@ -613,6 +615,492 @@ public class EditorConfig implements Configurable {
         () -> configuration.docTypeHolder,
         v -> configuration.docTypeHolder = v,
         baseConfiguration.docTypeHolderDescription);
+
+    text(
+        miscFields,
+        () -> configuration.anonymousClassDescription,
+        v -> configuration.anonymousClassDescription = v,
+        baseConfiguration.anonymousClassDescription);
+    text(
+        miscFields,
+        () -> configuration.arrayAccessExpressionDescription,
+        v -> configuration.arrayAccessExpressionDescription = v,
+        baseConfiguration.arrayAccessExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.arrayInitializerExpressionDescription,
+        v -> configuration.arrayInitializerExpressionDescription = v,
+        baseConfiguration.arrayInitializerExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.assertStatementDescription,
+        v -> configuration.assertStatementDescription = v,
+        baseConfiguration.assertStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.assignmentExpressionDescription,
+        v -> configuration.assignmentExpressionDescription = v,
+        baseConfiguration.assignmentExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.binaryExpressionDescription,
+        v -> configuration.binaryExpressionDescription = v,
+        baseConfiguration.binaryExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.blockStatementDescription,
+        v -> configuration.blockStatementDescription = v,
+        baseConfiguration.blockStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.breakStatementDescription,
+        v -> configuration.breakStatementDescription = v,
+        baseConfiguration.breakStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.aClassDescription,
+        v -> configuration.aClassDescription = v,
+        baseConfiguration.aClassDescription);
+    text(
+        miscFields,
+        () -> configuration.classInitializerDescription,
+        v -> configuration.classInitializerDescription = v,
+        baseConfiguration.classInitializerDescription);
+    text(
+        miscFields,
+        () -> configuration.classObjectAccessExpressionDescription,
+        v -> configuration.classObjectAccessExpressionDescription = v,
+        baseConfiguration.classObjectAccessExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.codeBlockDescription,
+        v -> configuration.codeBlockDescription = v,
+        baseConfiguration.codeBlockDescription);
+    text(
+        miscFields,
+        () -> configuration.conditionalExpressionDescription,
+        v -> configuration.conditionalExpressionDescription = v,
+        baseConfiguration.conditionalExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.continueStatementDescription,
+        v -> configuration.continueStatementDescription = v,
+        baseConfiguration.continueStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.declarationStatementDescription,
+        v -> configuration.declarationStatementDescription = v,
+        baseConfiguration.declarationStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.docCommentDescription,
+        v -> configuration.docCommentDescription = v,
+        baseConfiguration.docCommentDescription);
+    text(
+        miscFields,
+        () -> configuration.docTagDescription,
+        v -> configuration.docTagDescription = v,
+        baseConfiguration.docTagDescription);
+    text(
+        miscFields,
+        () -> configuration.doWhileStatementDescription,
+        v -> configuration.doWhileStatementDescription = v,
+        baseConfiguration.doWhileStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.emptyStatementDescription,
+        v -> configuration.emptyStatementDescription = v,
+        baseConfiguration.emptyStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.expressionListDescription,
+        v -> configuration.expressionListDescription = v,
+        baseConfiguration.expressionListDescription);
+    text(
+        miscFields,
+        () -> configuration.expressionListStatementDescription,
+        v -> configuration.expressionListStatementDescription = v,
+        baseConfiguration.expressionListStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.expressionStatementDescription,
+        v -> configuration.expressionStatementDescription = v,
+        baseConfiguration.expressionStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.fieldDescription,
+        v -> configuration.fieldDescription = v,
+        baseConfiguration.fieldDescription);
+    text(
+        miscFields,
+        () -> configuration.forStatementDescription,
+        v -> configuration.forStatementDescription = v,
+        baseConfiguration.forStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.foreachStatementDescription,
+        v -> configuration.foreachStatementDescription = v,
+        baseConfiguration.foreachStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.ifStatementDescription,
+        v -> configuration.ifStatementDescription = v,
+        baseConfiguration.ifStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.importListDescription,
+        v -> configuration.importListDescription = v,
+        baseConfiguration.importListDescription);
+    text(
+        miscFields,
+        () -> configuration.importStatementDescription,
+        v -> configuration.importStatementDescription = v,
+        baseConfiguration.importStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.importStaticStatementDescription,
+        v -> configuration.importStaticStatementDescription = v,
+        baseConfiguration.importStaticStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.inlineDocTagDescription,
+        v -> configuration.inlineDocTagDescription = v,
+        baseConfiguration.inlineDocTagDescription);
+    text(
+        miscFields,
+        () -> configuration.instanceOfExpressionDescription,
+        v -> configuration.instanceOfExpressionDescription = v,
+        baseConfiguration.instanceOfExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.labeledStatementDescription,
+        v -> configuration.labeledStatementDescription = v,
+        baseConfiguration.labeledStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.literalExpressionDescription,
+        v -> configuration.literalExpressionDescription = v,
+        baseConfiguration.literalExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.localVariableDescription,
+        v -> configuration.localVariableDescription = v,
+        baseConfiguration.localVariableDescription);
+    text(
+        miscFields,
+        () -> configuration.methodDescription,
+        v -> configuration.methodDescription = v,
+        baseConfiguration.methodDescription);
+    text(
+        miscFields,
+        () -> configuration.methodCallExpressionDescription,
+        v -> configuration.methodCallExpressionDescription = v,
+        baseConfiguration.methodCallExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.modifierListDescription,
+        v -> configuration.modifierListDescription = v,
+        baseConfiguration.modifierListDescription);
+    text(
+        miscFields,
+        () -> configuration.newExpressionDescription,
+        v -> configuration.newExpressionDescription = v,
+        baseConfiguration.newExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.packageStatementDescription,
+        v -> configuration.packageStatementDescription = v,
+        baseConfiguration.packageStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.parameterDescription,
+        v -> configuration.parameterDescription = v,
+        baseConfiguration.parameterDescription);
+    text(
+        miscFields,
+        () -> configuration.receiverParameterDescription,
+        v -> configuration.receiverParameterDescription = v,
+        baseConfiguration.receiverParameterDescription);
+    text(
+        miscFields,
+        () -> configuration.parameterListDescription,
+        v -> configuration.parameterListDescription = v,
+        baseConfiguration.parameterListDescription);
+    text(
+        miscFields,
+        () -> configuration.postfixExpressionDescription,
+        v -> configuration.postfixExpressionDescription = v,
+        baseConfiguration.postfixExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.prefixExpressionDescription,
+        v -> configuration.prefixExpressionDescription = v,
+        baseConfiguration.prefixExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.referenceParameterListDescription,
+        v -> configuration.referenceParameterListDescription = v,
+        baseConfiguration.referenceParameterListDescription);
+    text(
+        miscFields,
+        () -> configuration.typeParameterListDescription,
+        v -> configuration.typeParameterListDescription = v,
+        baseConfiguration.typeParameterListDescription);
+    text(
+        miscFields,
+        () -> configuration.returnStatementDescription,
+        v -> configuration.returnStatementDescription = v,
+        baseConfiguration.returnStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.superExpressionDescription,
+        v -> configuration.superExpressionDescription = v,
+        baseConfiguration.superExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.switchLabelStatementDescription,
+        v -> configuration.switchLabelStatementDescription = v,
+        baseConfiguration.switchLabelStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.switchStatementDescription,
+        v -> configuration.switchStatementDescription = v,
+        baseConfiguration.switchStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.synchronizedStatementDescription,
+        v -> configuration.synchronizedStatementDescription = v,
+        baseConfiguration.synchronizedStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.thisExpressionDescription,
+        v -> configuration.thisExpressionDescription = v,
+        baseConfiguration.thisExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.throwStatementDescription,
+        v -> configuration.throwStatementDescription = v,
+        baseConfiguration.throwStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.tryStatementDescription,
+        v -> configuration.tryStatementDescription = v,
+        baseConfiguration.tryStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.catchSectionDescription,
+        v -> configuration.catchSectionDescription = v,
+        baseConfiguration.catchSectionDescription);
+    text(
+        miscFields,
+        () -> configuration.resourceListDescription,
+        v -> configuration.resourceListDescription = v,
+        baseConfiguration.resourceListDescription);
+    text(
+        miscFields,
+        () -> configuration.resourceVariableDescription,
+        v -> configuration.resourceVariableDescription = v,
+        baseConfiguration.resourceVariableDescription);
+    text(
+        miscFields,
+        () -> configuration.resourceExpressionDescription,
+        v -> configuration.resourceExpressionDescription = v,
+        baseConfiguration.resourceExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.typeCastExpressionDescription,
+        v -> configuration.typeCastExpressionDescription = v,
+        baseConfiguration.typeCastExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.whileStatementDescription,
+        v -> configuration.whileStatementDescription = v,
+        baseConfiguration.whileStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.typeParameterDescription,
+        v -> configuration.typeParameterDescription = v,
+        baseConfiguration.typeParameterDescription);
+    text(
+        miscFields,
+        () -> configuration.annotationDescription,
+        v -> configuration.annotationDescription = v,
+        baseConfiguration.annotationDescription);
+    text(
+        miscFields,
+        () -> configuration.annotationParameterListDescription,
+        v -> configuration.annotationParameterListDescription = v,
+        baseConfiguration.annotationParameterListDescription);
+    text(
+        miscFields,
+        () -> configuration.annotationArrayInitializerDescription,
+        v -> configuration.annotationArrayInitializerDescription = v,
+        baseConfiguration.annotationArrayInitializerDescription);
+    text(
+        miscFields,
+        () -> configuration.nameValuePairDescription,
+        v -> configuration.nameValuePairDescription = v,
+        baseConfiguration.nameValuePairDescription);
+    text(
+        miscFields,
+        () -> configuration.annotationMethodDescription,
+        v -> configuration.annotationMethodDescription = v,
+        baseConfiguration.annotationMethodDescription);
+    text(
+        miscFields,
+        () -> configuration.enumConstantDescription,
+        v -> configuration.enumConstantDescription = v,
+        baseConfiguration.enumConstantDescription);
+    text(
+        miscFields,
+        () -> configuration.enumConstantInitializerDescription,
+        v -> configuration.enumConstantInitializerDescription = v,
+        baseConfiguration.enumConstantInitializerDescription);
+    text(
+        miscFields,
+        () -> configuration.polyadicExpressionDescription,
+        v -> configuration.polyadicExpressionDescription = v,
+        baseConfiguration.polyadicExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.lambdaExpressionDescription,
+        v -> configuration.lambdaExpressionDescription = v,
+        baseConfiguration.lambdaExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.moduleDescription,
+        v -> configuration.moduleDescription = v,
+        baseConfiguration.moduleDescription);
+    text(
+        miscFields,
+        () -> configuration.requiresStatementDescription,
+        v -> configuration.requiresStatementDescription = v,
+        baseConfiguration.requiresStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.usesStatementDescription,
+        v -> configuration.usesStatementDescription = v,
+        baseConfiguration.usesStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.providesStatementDescription,
+        v -> configuration.providesStatementDescription = v,
+        baseConfiguration.providesStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.methodRefExpressionDescription,
+        v -> configuration.methodRefExpressionDescription = v,
+        baseConfiguration.methodRefExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.typeDescription,
+        v -> configuration.typeDescription = v,
+        baseConfiguration.typeDescription);
+    text(
+        miscFields,
+        () -> configuration.diamondTypeDescription,
+        v -> configuration.diamondTypeDescription = v,
+        baseConfiguration.diamondTypeDescription);
+    text(
+        miscFields,
+        () -> configuration.importStaticReferenceDescription,
+        v -> configuration.importStaticReferenceDescription = v,
+        baseConfiguration.importStaticReferenceDescription);
+    text(
+        miscFields,
+        () -> configuration.providesWithListDescription,
+        v -> configuration.providesWithListDescription = v,
+        baseConfiguration.providesWithListDescription);
+    text(
+        miscFields,
+        () -> configuration.opensStatementDescription,
+        v -> configuration.opensStatementDescription = v,
+        baseConfiguration.opensStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.exportsStatementDescription,
+        v -> configuration.exportsStatementDescription = v,
+        baseConfiguration.exportsStatementDescription);
+    text(
+        miscFields,
+        () -> configuration.throwsListDescription,
+        v -> configuration.throwsListDescription = v,
+        baseConfiguration.throwsListDescription);
+    text(
+        miscFields,
+        () -> configuration.extendsBoundListDescription,
+        v -> configuration.extendsBoundListDescription = v,
+        baseConfiguration.extendsBoundListDescription);
+    text(
+        miscFields,
+        () -> configuration.implementsListDescription,
+        v -> configuration.implementsListDescription = v,
+        baseConfiguration.implementsListDescription);
+    text(
+        miscFields,
+        () -> configuration.extendsListDescription,
+        v -> configuration.extendsListDescription = v,
+        baseConfiguration.extendsListDescription);
+    text(
+        miscFields,
+        () -> configuration.emptyExpressionDescription,
+        v -> configuration.emptyExpressionDescription = v,
+        baseConfiguration.emptyExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.switchExpressionDescription,
+        v -> configuration.switchExpressionDescription = v,
+        baseConfiguration.switchExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.switchLabeledRuleDescription,
+        v -> configuration.switchLabeledRuleDescription = v,
+        baseConfiguration.switchLabeledRuleDescription);
+    text(
+        miscFields,
+        () -> configuration.moduleReferenceDescription,
+        v -> configuration.moduleReferenceDescription = v,
+        baseConfiguration.moduleReferenceDescription);
+    text(
+        miscFields,
+        () -> configuration.javaCodeReferenceDescription,
+        v -> configuration.javaCodeReferenceDescription = v,
+        baseConfiguration.javaCodeReferenceDescription);
+    text(
+        miscFields,
+        () -> configuration.referenceExpressionDescription,
+        v -> configuration.referenceExpressionDescription = v,
+        baseConfiguration.referenceExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.parenthExpressionDescription,
+        v -> configuration.parenthExpressionDescription = v,
+        baseConfiguration.parenthExpressionDescription);
+    text(
+        miscFields,
+        () -> configuration.docMethodOrFieldRefDescription,
+        v -> configuration.docMethodOrFieldRefDescription = v,
+        baseConfiguration.docMethodOrFieldRefDescription);
+    text(
+        miscFields,
+        () -> configuration.docParameterRefDescription,
+        v -> configuration.docParameterRefDescription = v,
+        baseConfiguration.docParameterRefDescription);
+    text(
+        miscFields,
+        () -> configuration.docTagValueElementDescription,
+        v -> configuration.docTagValueElementDescription = v,
+        baseConfiguration.docTagValueElementDescription);
+    text(
+        miscFields,
+        () -> configuration.docReferenceHolderDescription,
+        v -> configuration.docReferenceHolderDescription = v,
+        baseConfiguration.docReferenceHolderDescription);
+    text(
+        miscFields,
+        () -> configuration.docTypeHolderDescription,
+        v -> configuration.docTypeHolderDescription = v,
+        baseConfiguration.docTypeHolderDescription);
   }
 
   private void checkBox(
@@ -676,26 +1164,35 @@ public class EditorConfig implements Configurable {
       advanced.add(field.getComponent());
     }
 
+    final JPanel misc = new JPanel(new VerticalLayout(8));
+    for (BeanField field : miscFields) {
+      misc.add(field.getComponent());
+    }
+
     tabbedPane.add("Basics", panel);
     tabbedPane.add("Advanced", advanced);
+    tabbedPane.add("Miscellaneous", misc);
 
     return tabbedPane;
   }
 
   public boolean isModified() {
     return basicFields.stream().anyMatch(BeanField::isModified)
-        || advancedFields.stream().anyMatch(BeanField::isModified);
+        || advancedFields.stream().anyMatch(BeanField::isModified)
+        || miscFields.stream().anyMatch(BeanField::isModified);
   }
 
   public void apply() {
     basicFields.forEach(BeanField::apply);
     advancedFields.forEach(BeanField::apply);
+    miscFields.forEach(BeanField::apply);
     configuration.notifyListeners();
   }
 
   public void reset() {
     basicFields.forEach(BeanField::reset);
     advancedFields.forEach(BeanField::reset);
+    miscFields.forEach(BeanField::reset);
   }
 
   @Override
