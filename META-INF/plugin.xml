@@ -5,7 +5,7 @@
   <vendor email="kisstkondoros@gmail.com" url="https://github.com/kisstkondoros">kisstkondoros</vendor>
 
   <description><![CDATA[
-      Provides inlay indicators based on a customizable complexity calculation
+      Provides inlay indicators based on a customizable complexity calculation for Java files
     ]]></description>
   <change-notes><![CDATA[<ul>
     <li>1.0.0 - Enhance parser and configuration capabilities</li>
@@ -16,8 +16,7 @@
 
   <idea-version since-build="182"/>
 
-  <depends>com.intellij.modules.lang</depends>
-
+  <depends>com.intellij.modules.java</depends>
 
   <extensions defaultExtensionNs="com.intellij">
     <applicationService serviceImplementation="com.github.kisstkondoros.codemetrics.core.config.MetricsConfiguration" />
