@@ -8,7 +8,7 @@
       Provides inlay indicators based on a customizable complexity calculation for Java files
     ]]></description>
   <change-notes><![CDATA[<ul>
-    <li>1.0.0 - Enhance parser and configuration capabilities</li>
+    <li>1.0.0 - Enhance parser and configuration capabilities and the general look and feel</li>
     <li>  0.2 - Adjust supported version based on the verification result</li>
     <li>  0.1 - First MVP</li>
     </ul>]]>
