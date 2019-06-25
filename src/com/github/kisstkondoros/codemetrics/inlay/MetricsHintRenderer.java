@@ -9,10 +9,13 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.Inlay;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.editor.markup.TextAttributes;
+import com.intellij.ui.ColorUtil;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.awt.*;
+
+import static com.github.kisstkondoros.codemetrics.util.ColorContrastUtil.getContrastColor;
 
 public class MetricsHintRenderer extends HintRenderer {
   private MetricsModel model;
@@ -34,26 +37,30 @@ public class MetricsHintRenderer extends HintRenderer {
 
     ComplexityColorUtil.ComplexityColorScheme colorSchemeForComplexity =
         ComplexityColorUtil.getColorSchemeForComplexity(model.getCollectedComplexity());
-    int foregroundAlpha = colorSchemeForComplexity.getFontColor().getAlpha();
     int backgroundAlpha = colorSchemeForComplexity.getColor().getAlpha();
 
-    Color fontColor = colorSchemeForComplexity.getFontColor();
     Color backgroundColor = colorSchemeForComplexity.getColor();
 
     double highlightMultiplier = this.highlighted ? 1 : 0.8d;
 
+    Color defaultBackground = editor.getColorsScheme().getDefaultBackground();
+    Color backgroundColorWithAlpha =
+        new Color(
+            backgroundColor.getRed(),
+            backgroundColor.getGreen(),
+            backgroundColor.getBlue(),
+            (int) (backgroundAlpha * highlightMultiplier));
+
+    Color fontColor =
+        getContrastColor(
+            ColorUtil.mix(defaultBackground, backgroundColorWithAlpha, highlightMultiplier));
     clone.setForegroundColor(
         new Color(
             fontColor.getRed(),
             fontColor.getGreen(),
             fontColor.getBlue(),
-            (int) (foregroundAlpha * highlightMultiplier)));
-    clone.setBackgroundColor(
-        new Color(
-            backgroundColor.getRed(),
-            backgroundColor.getGreen(),
-            backgroundColor.getBlue(),
-            (int) (backgroundAlpha * highlightMultiplier)));
+            (int) (fontColor.getAlpha() * highlightMultiplier)));
+    clone.setBackgroundColor(backgroundColorWithAlpha);
 
     return clone;
   }
