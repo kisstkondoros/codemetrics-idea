@@ -75,8 +75,15 @@ public class MetricsModel {
   }
 
   public String getSummary() {
+    return getSummary(true);
+  }
+
+  public String getSummary(boolean includeChildNodes) {
     return String.format(
-        "+%s %s (%s)", getCollectedComplexity(), getTextToShow(), getDescription());
+        "+%s %s (%s)",
+        includeChildNodes ? getCollectedComplexity() : getComplexity(),
+        getTextToShow(),
+        getDescription());
   }
 
   public String getTextToShow() {

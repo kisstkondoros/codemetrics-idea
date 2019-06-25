@@ -11,9 +11,11 @@ import java.util.Optional;
 
 public class MetricsCellRenderer extends DefaultPsiElementCellRenderer {
 
+  private final MetricsModel root;
   private final Map<PsiElement, MetricsModel> models;
 
-  public MetricsCellRenderer(Map<PsiElement, MetricsModel> models) {
+  public MetricsCellRenderer(MetricsModel root, Map<PsiElement, MetricsModel> models) {
+    this.root = root;
     this.models = models;
   }
 
@@ -36,7 +38,11 @@ public class MetricsCellRenderer extends DefaultPsiElementCellRenderer {
   @Override
   public String getElementText(PsiElement element) {
     return Optional.ofNullable(models.get(element))
-        .map(MetricsModel::getSummary)
+        .map(metricsModel -> getSummary(metricsModel))
         .orElseGet(() -> super.getElementText(element));
+  }
+
+  private String getSummary(MetricsModel metricsModel) {
+    return metricsModel == root ? root.getSummary(false) : metricsModel.getSummary();
   }
 }

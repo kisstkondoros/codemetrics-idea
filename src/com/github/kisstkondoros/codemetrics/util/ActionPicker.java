@@ -36,7 +36,7 @@ public class ActionPicker {
             psiElements,
             "Complexity increasing elements",
             "Elements",
-            new MetricsCellRenderer(psiElementToModelMap),
+            new MetricsCellRenderer(model, psiElementToModelMap),
             ActionPicker::onItemPicked);
     if (jbPopup != null && editor != null) {
       jbPopup.show(point);
