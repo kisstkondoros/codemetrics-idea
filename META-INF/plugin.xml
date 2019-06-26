@@ -1,20 +1,21 @@
 <idea-plugin>
   <id>com.github.kisstkondoros.codemetrics</id>
   <name>CodeMetrics</name>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <vendor email="kisstkondoros@gmail.com" url="https://github.com/kisstkondoros">kisstkondoros</vendor>
 
   <description><![CDATA[
       Provides inlay indicators based on a customizable complexity calculation for Java files
     ]]></description>
   <change-notes><![CDATA[<ul>
+    <li>1.0.1 - Set platform baseline to version 191</li>
     <li>1.0.0 - Enhance parser and configuration capabilities and the general look and feel</li>
     <li>  0.2 - Adjust supported version based on the verification result</li>
     <li>  0.1 - First MVP</li>
     </ul>]]>
   </change-notes>
 
-  <idea-version since-build="182"/>
+  <idea-version since-build="191"/>
 
   <depends>com.intellij.modules.java</depends>
 
