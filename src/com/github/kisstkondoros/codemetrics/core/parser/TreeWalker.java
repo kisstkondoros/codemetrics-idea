@@ -3,6 +3,7 @@ package com.github.kisstkondoros.codemetrics.core.parser;
 import com.github.kisstkondoros.codemetrics.core.CollectorType;
 import com.github.kisstkondoros.codemetrics.core.MetricsModel;
 import com.github.kisstkondoros.codemetrics.core.config.MetricsConfiguration;
+import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.IElementType;
@@ -43,16 +44,22 @@ public class TreeWalker {
   }
 
   private MetricsModel getMetrics(PsiElement element) {
-    IElementType elementType = element.getNode().getElementType();
-
-    ComplexityHandler handler = HandlerRegistry.get(elementType);
     MetricsModel model = null;
-    if (handler != null) {
-      model =
-          handler
-              .forConfig(configuration)
-              .andThen(p -> visit(element, p.getIncrement(), p.getDescription(), p.isVisible()))
-              .apply(element);
+    if (element != null) {
+      ASTNode node = element.getNode();
+      if (node != null) {
+        IElementType elementType = node.getElementType();
+
+        ComplexityHandler handler = HandlerRegistry.get(elementType);
+
+        if (handler != null) {
+          model =
+              handler
+                  .forConfig(configuration)
+                  .andThen(p -> visit(element, p.getIncrement(), p.getDescription(), p.isVisible()))
+                  .apply(element);
+        }
+      }
     }
     return model;
   }
