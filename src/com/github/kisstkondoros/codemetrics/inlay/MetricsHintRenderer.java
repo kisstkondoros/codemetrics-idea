@@ -12,7 +12,6 @@ import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.ui.ColorUtil;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
 import java.awt.*;
 
 import static com.github.kisstkondoros.codemetrics.util.ColorContrastUtil.getContrastColor;
@@ -26,7 +25,6 @@ public class MetricsHintRenderer extends HintRenderer {
     this.model = model;
   }
 
-  @Nullable
   protected TextAttributes getTextAttributes(@NotNull Editor editor) {
     TextAttributesKey textAttributesKey =
         this.highlighted
@@ -65,7 +63,6 @@ public class MetricsHintRenderer extends HintRenderer {
     return clone;
   }
 
-  @Nullable
   public String getContextMenuGroupId(@NotNull Inlay inlay) {
     return "CodeMetricsHints";
   }
