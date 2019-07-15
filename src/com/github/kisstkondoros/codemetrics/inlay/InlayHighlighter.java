@@ -1,7 +1,7 @@
 package com.github.kisstkondoros.codemetrics.inlay;
 
 import com.github.kisstkondoros.codemetrics.core.MetricsModel;
-import com.github.kisstkondoros.codemetrics.util.ActionPicker;
+import com.github.kisstkondoros.codemetrics.util.NavigatingPicker;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.Inlay;
 import com.intellij.openapi.editor.event.EditorMouseEvent;
@@ -9,6 +9,7 @@ import com.intellij.openapi.editor.event.EditorMouseEventArea;
 import com.intellij.openapi.editor.event.EditorMouseListener;
 import com.intellij.openapi.editor.event.EditorMouseMotionListener;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.awt.RelativePoint;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +26,7 @@ public class InlayHighlighter {
     this.project = project;
   }
 
-  public void installInlayHighlighter(Editor editor) {
+  public void installInlayHighlighter(Editor editor, VirtualFile file) {
     editor.addEditorMouseMotionListener(
         new EditorMouseMotionListener() {
           WeakReference<Inlay<? extends MetricsHintRenderer>> previousHighlighted =
@@ -64,7 +65,7 @@ public class InlayHighlighter {
                   p -> {
                     MetricsModel model = p.getRenderer().getModel();
                     RelativePoint point = new RelativePoint(event.getMouseEvent());
-                    ActionPicker.showRefactorActionPicker(point, editor, model);
+                    NavigatingPicker.showPicker(point, project, file, model);
                   };
 
               executeWithInlayUnderPointer(editor, event, openPicker);

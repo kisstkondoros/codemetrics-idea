@@ -14,15 +14,16 @@ import java.util.LongSummaryStatistics;
 import static com.github.kisstkondoros.codemetrics.core.CollectorType.MAX;
 
 public class MetricsModel {
-  private PsiElement node;
   private int complexity;
   private boolean visible;
   private List<MetricsModel> children = new ArrayList<>();
   private String description;
   private String text;
+  private String name;
   private CollectorType collectorType;
   private Supplier<Long> memoizedComplexityComputation =
       Suppliers.memoize(this::computeCollectedComplexity);
+  private int textOffset;
 
   public MetricsModel(
       PsiElement node,
@@ -31,24 +32,27 @@ public class MetricsModel {
       boolean trim,
       boolean visible,
       CollectorType collectorType) {
-    this.setNode(node);
-    this.setComplexity(complexity);
-    this.setVisible(visible);
-    this.setDescription(description);
-    this.setCollectorType(collectorType);
-    this.storeText(trim);
+    this.complexity = complexity;
+    this.visible = visible;
+    this.description = description;
+    this.collectorType = collectorType;
+    this.storeText(node, trim);
+    this.textOffset = node.getTextOffset();
+    if (node instanceof PsiNamedElement) {
+      this.name = ((PsiNamedElement) node).getName();
+    }
   }
 
-  private void storeText(boolean trim) {
-    this.setText(getNode().getText());
+  private void storeText(PsiElement node, boolean trim) {
+    text = node.getText();
     if (trim) {
       int lineFeedIndex = this.getText().indexOf('\r');
       lineFeedIndex = lineFeedIndex < 0 ? this.getText().length() : (lineFeedIndex + 1);
       String line = this.getText().substring(0, lineFeedIndex);
       if (line.length() > 20) {
-        this.setText(line.substring(0, 20) + "...");
+        text = line.substring(0, 20) + "...";
       } else {
-        this.setText(line);
+        text = line;
       }
     }
   }
@@ -87,14 +91,10 @@ public class MetricsModel {
   }
 
   public String getTextToShow() {
-    if (getNode() instanceof PsiNamedElement) {
-      return ((PsiNamedElement) getNode()).getName();
+    if (this.name != null) {
+      return this.name;
     }
     return this.getText();
-  }
-
-  private String pad(String input, int lenghtToFit) {
-    return Strings.padStart(input, lenghtToFit, ' ');
   }
 
   public String toString(MetricsConfiguration settings) {
@@ -118,59 +118,31 @@ public class MetricsModel {
     return template.replace("{0}", complexitySum + "").replace("{1}", instruction);
   }
 
-  public PsiElement getNode() {
-    return node;
-  }
-
-  public void setNode(PsiElement node) {
-    this.node = node;
-  }
-
   public int getComplexity() {
     return complexity;
-  }
-
-  public void setComplexity(int complexity) {
-    this.complexity = complexity;
   }
 
   public boolean isVisible() {
     return visible;
   }
 
-  public void setVisible(boolean visible) {
-    this.visible = visible;
-  }
-
   public List<MetricsModel> getChildren() {
     return children;
-  }
-
-  public void setChildren(List<MetricsModel> children) {
-    this.children = children;
   }
 
   public String getDescription() {
     return description;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
   public String getText() {
     return text;
-  }
-
-  public void setText(String text) {
-    this.text = text;
   }
 
   public CollectorType getCollectorType() {
     return collectorType;
   }
 
-  public void setCollectorType(CollectorType collectorType) {
-    this.collectorType = collectorType;
+  public int getTextOffset() {
+    return textOffset;
   }
 }

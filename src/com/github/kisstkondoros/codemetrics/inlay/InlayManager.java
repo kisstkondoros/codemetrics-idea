@@ -69,7 +69,7 @@ public class InlayManager implements ProjectComponent {
   }
 
   private void installInlay(Editor editor, MetricsModel value) {
-    int textOffset = value.getNode().getTextOffset();
+    int textOffset = value.getTextOffset();
     InlayModel inlayModel = editor.getInlayModel();
     inlayModel.addAfterLineEndElement(textOffset, false, new MetricsHintRenderer(value));
   }

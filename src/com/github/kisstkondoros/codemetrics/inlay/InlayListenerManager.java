@@ -46,7 +46,7 @@ class InlayListenerManager implements FileEditorManagerListener {
       }
 
       InlayHighlighter inlayHighlighter = new InlayHighlighter(project);
-      inlayHighlighter.installInlayHighlighter(editor);
+      inlayHighlighter.installInlayHighlighter(editor, file);
 
       DocumentListener listener = registerDocumentListener(file, editor);
       MetricsConfiguration configuration = MetricsConfiguration.getInstance();
