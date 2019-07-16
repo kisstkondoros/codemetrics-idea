@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.Map;
 
-class InlayListenerManager implements FileEditorManagerListener {
+class InlayListenerManager implements FileEditorManagerListener, Disposable {
 
   private final Project project;
   private final Map<String, Disposable> disposables;
@@ -89,5 +89,11 @@ class InlayListenerManager implements FileEditorManagerListener {
     if (listener != null) {
       listener.dispose();
     }
+  }
+
+  @Override
+  public void dispose() {
+    disposables.values().forEach(Disposable::dispose);
+    disposables.clear();
   }
 }
