@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.github.kisstkondoros.codemetrics</id>
   <name>CodeMetrics</name>
-  <version>1.0.3</version>
+  <version>1.0.4</version>
   <vendor email="kisstkondoros@gmail.com" url="https://github.com/kisstkondoros">kisstkondoros</vendor>
 
   <description><![CDATA[<html><body>
@@ -50,6 +50,7 @@
 <p>Licensed under MIT</p></body></html>]]>
   </description>
   <change-notes><![CDATA[<ul>
+    <li>1.0.4 - Fix leaking editor listeners</li>
     <li>1.0.3 - Collect metadata upfront</li>
     <li>1.0.2 - Fix potential NPE in TreeWalker</li>
     <li>1.0.1 - Set platform baseline to version 191</li>
