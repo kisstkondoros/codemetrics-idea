@@ -40,7 +40,15 @@ public class InlayManager implements ProjectComponent {
   }
 
   private Stream<MetricsModel> computeMetrics(VirtualFile file) {
-    PsiFile psiFile = PsiUtilBase.getPsiFile(project, file);
+    if (project.isDisposed() || !file.isValid()) {
+      return Stream.empty();
+    }
+    PsiFile psiFile;
+    try {
+      psiFile = PsiUtilBase.getPsiFile(project, file);
+    } catch (AssertionError e) {
+      return Stream.empty();
+    }
 
     MetricsModel model = new MetricsParser().getMetrics(psiFile);
     MetricsConfiguration configuration = MetricsConfiguration.getInstance();
