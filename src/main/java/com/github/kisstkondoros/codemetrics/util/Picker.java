@@ -37,7 +37,7 @@ public class Picker {
 
         final IPopupChooserBuilder<TYPE> builder = new PopupChooserBuilder<>(list);
         if (listRenderer instanceof PsiElementListCellRenderer) {
-            ((PsiElementListCellRenderer) listRenderer).installSpeedSearch(builder);
+            ((PsiElementListCellRenderer<?>) listRenderer).installSpeedSearch(builder);
         }
 
         IPopupChooserBuilder<TYPE> popupChooserBuilder =

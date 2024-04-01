@@ -33,7 +33,7 @@ public class NavigatingPicker {
                 Picker.navigateOrCreatePopup(
                         elements,
                         "Complexity increasing elements",
-                        new ColoredListCellRenderer<MetricsModel>() {
+                        new ColoredListCellRenderer<>() {
 
                             @Override
                             protected void customizeCellRenderer(
