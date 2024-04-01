@@ -1,25 +1,25 @@
 package com.github.kisstkondoros.codemetrics.core.parser;
 
 class ComplexityDescription {
-  private int increment;
-  private String description;
-  private boolean visible;
+    private final int increment;
+    private final String description;
+    private final boolean visible;
 
-  ComplexityDescription(Integer increment, String description, Boolean visible) {
-    this.increment = increment == null ? 0 : increment;
-    this.description = description;
-    this.visible = Boolean.TRUE.equals(visible);
-  }
+    ComplexityDescription(Integer increment, String description, Boolean visible) {
+        this.increment = increment == null ? 0 : increment;
+        this.description = description;
+        this.visible = Boolean.TRUE.equals(visible);
+    }
 
-  int getIncrement() {
-    return increment;
-  }
+    int getIncrement() {
+        return increment;
+    }
 
-  String getDescription() {
-    return description;
-  }
+    String getDescription() {
+        return description;
+    }
 
-  boolean isVisible() {
-    return visible;
-  }
+    boolean isVisible() {
+        return visible;
+    }
 }

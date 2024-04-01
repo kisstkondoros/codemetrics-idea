@@ -5,10 +5,10 @@ import com.intellij.util.Alarm;
 import com.intellij.util.AlarmFactory;
 
 public class Debouncer {
-  private Alarm alarm = AlarmFactory.getInstance().create();;
+    private final Alarm alarm = AlarmFactory.getInstance().create();
 
-  public void debounce(Runnable runnable) {
-    alarm.cancelAllRequests();
-    alarm.addRequest(() -> ApplicationManager.getApplication().runReadAction(runnable), 1000);
-  }
+    public void debounce(Runnable runnable) {
+        alarm.cancelAllRequests();
+        alarm.addRequest(() -> ApplicationManager.getApplication().runReadAction(runnable), 1000);
+    }
 }
