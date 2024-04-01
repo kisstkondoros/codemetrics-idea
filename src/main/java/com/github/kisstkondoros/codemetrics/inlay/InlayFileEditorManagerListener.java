@@ -13,22 +13,30 @@ import com.intellij.openapi.fileEditor.FileEditorManagerListener;
 import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiJavaFile;
-import com.intellij.psi.util.PsiUtilBase;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Map;
 
-class InlayListenerManager implements FileEditorManagerListener, Disposable {
+class InlayFileEditorManagerListener implements FileEditorManagerListener, Disposable {
 
-    private final Project project;
     private final Map<String, Disposable> disposables;
+    private final Project project;
+    private final InlayManager inlayManager;
+    private final InlayHighlighter inlayHighlighter;
 
-    public InlayListenerManager(Project project) {
+    public InlayFileEditorManagerListener(Project project, InlayManager inlayManager, InlayHighlighter inlayHighlighter) {
         this.project = project;
+        this.inlayManager = inlayManager;
+        this.inlayHighlighter = inlayHighlighter;
         disposables = Maps.newHashMap();
+        Arrays.stream(FileEditorManager.getInstance(project).getAllEditors())
+                .forEach(fileEditor -> {
+                    VirtualFile file = fileEditor.getFile();
+                    if (file != null) {
+                        installInlayHandler(file, fileEditor);
+                    }
+                });
     }
 
     @Override
@@ -40,22 +48,13 @@ class InlayListenerManager implements FileEditorManagerListener, Disposable {
     private void installInlayHandler(@NotNull VirtualFile file, FileEditor fileEditor) {
         if (fileEditor instanceof TextEditor) {
             Editor editor = ((TextEditor) fileEditor).getEditor();
-            PsiFile psiFile = PsiUtilBase.getPsiFile(project, file);
-            if (!(psiFile instanceof PsiJavaFile)) {
-                return;
-            }
-
-            InlayHighlighter inlayHighlighter = new InlayHighlighter(project);
             inlayHighlighter.installInlayHighlighter(editor, file);
 
             DocumentListener listener = registerDocumentListener(file, editor);
             MetricsConfiguration configuration = MetricsConfiguration.getInstance();
             Disposable refreshListener =
                     configuration.addListener(
-                            () -> {
-                                InlayManager inlayManager = project.getComponent(InlayManager.class);
-                                inlayManager.updateInlays(editor, file);
-                            });
+                            () -> inlayManager.updateInlays(project, editor, file));
             disposables.put(
                     file.getUrl(),
                     () -> {
@@ -67,17 +66,16 @@ class InlayListenerManager implements FileEditorManagerListener, Disposable {
 
     @NotNull
     private DocumentListener registerDocumentListener(@NotNull VirtualFile file, Editor editor) {
-        InlayManager inlayManager = project.getComponent(InlayManager.class);
         DocumentListener listener =
                 new DocumentListener() {
                     final Debouncer debouncer = new Debouncer();
 
                     @Override
                     public void documentChanged(@NotNull DocumentEvent event) {
-                        debouncer.debounce(() -> inlayManager.updateInlays(editor, file));
+                        debouncer.debounce(() -> inlayManager.updateInlays(project, editor, file));
                     }
                 };
-        inlayManager.updateInlays(editor, file);
+        inlayManager.updateInlays(project, editor, file);
         editor.getDocument().addDocumentListener(listener);
         return listener;
     }

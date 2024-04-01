@@ -21,9 +21,11 @@ import java.util.function.Consumer;
 
 public class InlayHighlighter {
     private final Project project;
+    private final InlayManager inlayManager;
 
-    public InlayHighlighter(Project project) {
+    public InlayHighlighter(Project project, InlayManager inlayManager) {
         this.project = project;
+        this.inlayManager = inlayManager;
     }
 
     public void installInlayHighlighter(Editor editor, VirtualFile file) {
@@ -82,7 +84,6 @@ public class InlayHighlighter {
             Editor editor,
             EditorMouseEvent event,
             Consumer<Inlay<? extends MetricsHintRenderer>> openPicker) {
-        InlayManager inlayManager = project.getComponent(InlayManager.class);
         List<Inlay<? extends MetricsHintRenderer>> inlays = inlayManager.getInlays(editor);
 
         Optional<Inlay<? extends MetricsHintRenderer>> firstInlay =

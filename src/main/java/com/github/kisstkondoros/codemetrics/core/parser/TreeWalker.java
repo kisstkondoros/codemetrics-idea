@@ -3,10 +3,10 @@ package com.github.kisstkondoros.codemetrics.core.parser;
 import com.github.kisstkondoros.codemetrics.core.CollectorType;
 import com.github.kisstkondoros.codemetrics.core.MetricsModel;
 import com.github.kisstkondoros.codemetrics.core.config.MetricsConfiguration;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiClass;
+import com.intellij.lang.jvm.JvmClass;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IElementType;
+import org.jetbrains.uast.UElement;
+import org.jetbrains.uast.UastContextKt;
 
 import java.util.Arrays;
 
@@ -46,18 +46,13 @@ public class TreeWalker {
     private MetricsModel getMetrics(PsiElement element) {
         MetricsModel model = null;
         if (element != null) {
-            ASTNode node = element.getNode();
-            if (node != null) {
-                IElementType elementType = node.getElementType();
 
-                ComplexityHandler handler = HandlerRegistry.get(elementType);
+            UElement uElement = UastContextKt.toUElement(element);
+            if (uElement != null && uElement.getSourcePsi() == element) {
+                ComplexityHandler<UElement> handler = HandlerRegistry.get(uElement);
 
                 if (handler != null) {
-                    model =
-                            handler
-                                    .forConfig(configuration)
-                                    .andThen(p -> visit(element, p.getIncrement(), p.getDescription(), p.isVisible()))
-                                    .apply(element);
+                    model = handler.forConfig(configuration).andThen(p -> visit(element, p.getIncrement(), p.getDescription(), p.isVisible())).apply(uElement);
                 }
             }
         }
@@ -65,7 +60,7 @@ public class TreeWalker {
     }
 
     private MetricsModel visit(PsiElement node, int complexity, String description, boolean visible) {
-        CollectorType collectorType = node instanceof PsiClass ? MAX : SUM;
+        @SuppressWarnings("UnstableApiUsage") CollectorType collectorType = node instanceof JvmClass ? MAX : SUM;
         return new MetricsModel(node, complexity, description, true, visible, collectorType);
     }
 }

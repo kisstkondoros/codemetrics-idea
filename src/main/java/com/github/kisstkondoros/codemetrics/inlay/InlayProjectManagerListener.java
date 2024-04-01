@@ -1,22 +1,19 @@
 package com.github.kisstkondoros.codemetrics.inlay;
 
-import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.fileEditor.FileEditorManagerListener;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.project.ProjectManagerListener;
+import com.intellij.openapi.startup.StartupActivity;
 import org.jetbrains.annotations.NotNull;
 
-public class EditorListener implements ProjectComponent {
-    private final Project project;
-
-    public EditorListener(Project project) {
-        this.project = project;
-    }
+public class InlayProjectManagerListener implements StartupActivity {
 
     @Override
-    public void projectOpened() {
-        InlayListenerManager handler = new InlayListenerManager(project);
+    public void runActivity(@NotNull Project project) {
+        InlayManager inlayManager = new InlayManager();
+        InlayHighlighter inlayHighlighter = new InlayHighlighter(project, inlayManager);
+        InlayFileEditorManagerListener handler = new InlayFileEditorManagerListener(project, inlayManager, inlayHighlighter);
         project
                 .getMessageBus()
                 .connect()
@@ -27,11 +24,5 @@ public class EditorListener implements ProjectComponent {
                 handler.dispose();
             }
         });
-    }
-
-    @NotNull
-    @Override
-    public String getComponentName() {
-        return "CodeMetrics.EditorListener";
     }
 }

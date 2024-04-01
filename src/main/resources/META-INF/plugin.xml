@@ -49,6 +49,7 @@
 <p>Licensed under MIT</p></body></html>]]>
     </description>
     <change-notes><![CDATA[<ul>
+    <li>2.0.0 - Kotlin support, cleanup of infrequently used properties</li>
     <li>1.0.4 - Fix leaking editor listeners</li>
     <li>1.0.3 - Collect metadata upfront</li>
     <li>1.0.2 - Fix potential NPE in TreeWalker</li>
@@ -59,23 +60,18 @@
     </ul>]]>
     </change-notes>
 
-    <idea-version since-build="191"/>
+    <idea-version since-build="223"/>
 
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.java</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.kisstkondoros.codemetrics.core.config.MetricsConfiguration" />
+        <applicationService
+                serviceImplementation="com.github.kisstkondoros.codemetrics.core.config.MetricsConfiguration"/>
         <applicationConfigurable instance="com.github.kisstkondoros.codemetrics.configuration.EditorConfig"/>
+        <postStartupActivity implementation="com.github.kisstkondoros.codemetrics.inlay.InlayProjectManagerListener"/>
     </extensions>
-
-    <project-components>
-        <component>
-            <implementation-class>com.github.kisstkondoros.codemetrics.inlay.EditorListener</implementation-class>
-        </component>
-        <component>
-            <implementation-class>com.github.kisstkondoros.codemetrics.inlay.InlayManager</implementation-class>
-        </component>
-    </project-components>
 
     <actions>
     </actions>

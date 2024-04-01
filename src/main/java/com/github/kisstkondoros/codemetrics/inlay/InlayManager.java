@@ -5,7 +5,6 @@ import com.github.kisstkondoros.codemetrics.core.config.MetricsConfiguration;
 import com.github.kisstkondoros.codemetrics.core.parser.MetricsParser;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.Inlay;
 import com.intellij.openapi.editor.InlayModel;
@@ -21,15 +20,10 @@ import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class InlayManager implements ProjectComponent {
-    private final Project project;
+public class InlayManager {
 
-    public InlayManager(Project project) {
-        this.project = project;
-    }
-
-    public void updateInlays(Editor editor, VirtualFile file) {
-        Stream<MetricsModel> models = computeMetrics(file);
+    public void updateInlays(Project project, Editor editor, VirtualFile file) {
+        Stream<MetricsModel> models = computeMetrics(project, file);
 
         Application application = ApplicationManager.getApplication();
         application.invokeLater(
@@ -39,7 +33,7 @@ public class InlayManager implements ProjectComponent {
                 });
     }
 
-    private Stream<MetricsModel> computeMetrics(VirtualFile file) {
+    private Stream<MetricsModel> computeMetrics(Project project, VirtualFile file) {
         if (project.isDisposed() || !file.isValid()) {
             return Stream.empty();
         }
@@ -58,7 +52,7 @@ public class InlayManager implements ProjectComponent {
         return streamMetricsModels(model, metricsModelPredicate);
     }
 
-    Stream<MetricsModel> streamMetricsModels(
+    private Stream<MetricsModel> streamMetricsModels(
             MetricsModel parentNode, Predicate<MetricsModel> predicate) {
         if (parentNode.getChildren().isEmpty()) {
             return Stream.of(parentNode).filter(predicate);

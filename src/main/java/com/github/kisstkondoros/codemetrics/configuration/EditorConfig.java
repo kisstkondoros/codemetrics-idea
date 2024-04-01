@@ -1,16 +1,18 @@
 package com.github.kisstkondoros.codemetrics.configuration;
 
 import com.github.kisstkondoros.codemetrics.core.config.MetricsConfiguration;
-import com.intellij.ide.plugins.newui.HorizontalLayout;
-import com.intellij.ide.plugins.newui.VerticalLayout;
+import com.intellij.ui.components.panels.HorizontalLayout;
+import com.intellij.ui.components.panels.VerticalLayout;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.ui.ColorPanel;
-import com.intellij.ui.JBColor;
 import com.intellij.ui.components.JBCheckBox;
+import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.components.JBTabbedPane;
 import com.intellij.ui.components.JBTextField;
+import com.intellij.util.ui.UIUtil;
 import org.jetbrains.annotations.Nls;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -20,9 +22,12 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
+import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
+
+@SuppressWarnings({"rawtypes", "UseJBColor"})
 public class EditorConfig implements Configurable {
     private final MetricsConfiguration configuration;
-    private final MetricsConfiguration baseConfiguration = new MetricsConfiguration();
     private final java.util.List<BeanField> basicFields;
     private final java.util.List<BeanField> advancedFields;
     private final java.util.List<BeanField> miscFields;
@@ -130,6 +135,7 @@ public class EditorConfig implements Configurable {
                 (v) -> configuration.complexityTemplate = v,
                 "Template of complexity description");
 
+        MetricsConfiguration baseConfiguration = new MetricsConfiguration();
         numeric(
                 advancedFields,
                 () -> configuration.anonymousClass,
@@ -140,26 +146,6 @@ public class EditorConfig implements Configurable {
                 () -> configuration.arrayAccessExpression,
                 v -> configuration.arrayAccessExpression = v,
                 baseConfiguration.arrayAccessExpressionDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.arrayInitializerExpression,
-                v -> configuration.arrayInitializerExpression = v,
-                baseConfiguration.arrayInitializerExpressionDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.assertStatement,
-                v -> configuration.assertStatement = v,
-                baseConfiguration.assertStatementDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.assignmentExpression,
-                v -> configuration.assignmentExpression = v,
-                baseConfiguration.assignmentExpressionDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.binaryExpression,
-                v -> configuration.binaryExpression = v,
-                baseConfiguration.binaryExpressionDescription);
         numeric(
                 advancedFields,
                 () -> configuration.blockStatement,
@@ -182,21 +168,6 @@ public class EditorConfig implements Configurable {
                 baseConfiguration.classInitializerDescription);
         numeric(
                 advancedFields,
-                () -> configuration.classObjectAccessExpression,
-                v -> configuration.classObjectAccessExpression = v,
-                baseConfiguration.classObjectAccessExpressionDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.codeBlock,
-                v -> configuration.codeBlock = v,
-                baseConfiguration.codeBlockDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.conditionalExpression,
-                v -> configuration.conditionalExpression = v,
-                baseConfiguration.conditionalExpressionDescription);
-        numeric(
-                advancedFields,
                 () -> configuration.continueStatement,
                 v -> configuration.continueStatement = v,
                 baseConfiguration.continueStatementDescription);
@@ -212,19 +183,9 @@ public class EditorConfig implements Configurable {
                 baseConfiguration.docCommentDescription);
         numeric(
                 advancedFields,
-                () -> configuration.docTag,
-                v -> configuration.docTag = v,
-                baseConfiguration.docTagDescription);
-        numeric(
-                advancedFields,
                 () -> configuration.doWhileStatement,
                 v -> configuration.doWhileStatement = v,
                 baseConfiguration.doWhileStatementDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.emptyStatement,
-                v -> configuration.emptyStatement = v,
-                baseConfiguration.emptyStatementDescription);
         numeric(
                 advancedFields,
                 () -> configuration.expressionList,
@@ -262,29 +223,9 @@ public class EditorConfig implements Configurable {
                 baseConfiguration.ifStatementDescription);
         numeric(
                 advancedFields,
-                () -> configuration.importList,
-                v -> configuration.importList = v,
-                baseConfiguration.importListDescription);
-        numeric(
-                advancedFields,
                 () -> configuration.importStatement,
                 v -> configuration.importStatement = v,
                 baseConfiguration.importStatementDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.importStaticStatement,
-                v -> configuration.importStaticStatement = v,
-                baseConfiguration.importStaticStatementDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.inlineDocTag,
-                v -> configuration.inlineDocTag = v,
-                baseConfiguration.inlineDocTagDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.instanceOfExpression,
-                v -> configuration.instanceOfExpression = v,
-                baseConfiguration.instanceOfExpressionDescription);
         numeric(
                 advancedFields,
                 () -> configuration.labeledStatement,
@@ -312,34 +253,9 @@ public class EditorConfig implements Configurable {
                 baseConfiguration.methodCallExpressionDescription);
         numeric(
                 advancedFields,
-                () -> configuration.modifierList,
-                v -> configuration.modifierList = v,
-                baseConfiguration.modifierListDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.newExpression,
-                v -> configuration.newExpression = v,
-                baseConfiguration.newExpressionDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.packageStatement,
-                v -> configuration.packageStatement = v,
-                baseConfiguration.packageStatementDescription);
-        numeric(
-                advancedFields,
                 () -> configuration.parameter,
                 v -> configuration.parameter = v,
                 baseConfiguration.parameterDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.receiverParameter,
-                v -> configuration.receiverParameter = v,
-                baseConfiguration.receiverParameterDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.parameterList,
-                v -> configuration.parameterList = v,
-                baseConfiguration.parameterListDescription);
         numeric(
                 advancedFields,
                 () -> configuration.postfixExpression,
@@ -352,16 +268,6 @@ public class EditorConfig implements Configurable {
                 baseConfiguration.prefixExpressionDescription);
         numeric(
                 advancedFields,
-                () -> configuration.referenceParameterList,
-                v -> configuration.referenceParameterList = v,
-                baseConfiguration.referenceParameterListDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.typeParameterList,
-                v -> configuration.typeParameterList = v,
-                baseConfiguration.typeParameterListDescription);
-        numeric(
-                advancedFields,
                 () -> configuration.returnStatement,
                 v -> configuration.returnStatement = v,
                 baseConfiguration.returnStatementDescription);
@@ -370,21 +276,6 @@ public class EditorConfig implements Configurable {
                 () -> configuration.superExpression,
                 v -> configuration.superExpression = v,
                 baseConfiguration.superExpressionDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.switchLabelStatement,
-                v -> configuration.switchLabelStatement = v,
-                baseConfiguration.switchLabelStatementDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.switchStatement,
-                v -> configuration.switchStatement = v,
-                baseConfiguration.switchStatementDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.synchronizedStatement,
-                v -> configuration.synchronizedStatement = v,
-                baseConfiguration.synchronizedStatementDescription);
         numeric(
                 advancedFields,
                 () -> configuration.thisExpression,
@@ -407,54 +298,14 @@ public class EditorConfig implements Configurable {
                 baseConfiguration.catchSectionDescription);
         numeric(
                 advancedFields,
-                () -> configuration.resourceList,
-                v -> configuration.resourceList = v,
-                baseConfiguration.resourceListDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.resourceVariable,
-                v -> configuration.resourceVariable = v,
-                baseConfiguration.resourceVariableDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.resourceExpression,
-                v -> configuration.resourceExpression = v,
-                baseConfiguration.resourceExpressionDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.typeCastExpression,
-                v -> configuration.typeCastExpression = v,
-                baseConfiguration.typeCastExpressionDescription);
-        numeric(
-                advancedFields,
                 () -> configuration.whileStatement,
                 v -> configuration.whileStatement = v,
                 baseConfiguration.whileStatementDescription);
         numeric(
                 advancedFields,
-                () -> configuration.typeParameter,
-                v -> configuration.typeParameter = v,
-                baseConfiguration.typeParameterDescription);
-        numeric(
-                advancedFields,
                 () -> configuration.annotation,
                 v -> configuration.annotation = v,
                 baseConfiguration.annotationDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.annotationParameterList,
-                v -> configuration.annotationParameterList = v,
-                baseConfiguration.annotationParameterListDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.annotationArrayInitializer,
-                v -> configuration.annotationArrayInitializer = v,
-                baseConfiguration.annotationArrayInitializerDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.nameValuePair,
-                v -> configuration.nameValuePair = v,
-                baseConfiguration.nameValuePairDescription);
         numeric(
                 advancedFields,
                 () -> configuration.annotationMethod,
@@ -467,11 +318,6 @@ public class EditorConfig implements Configurable {
                 baseConfiguration.enumConstantDescription);
         numeric(
                 advancedFields,
-                () -> configuration.enumConstantInitializer,
-                v -> configuration.enumConstantInitializer = v,
-                baseConfiguration.enumConstantInitializerDescription);
-        numeric(
-                advancedFields,
                 () -> configuration.polyadicExpression,
                 v -> configuration.polyadicExpression = v,
                 baseConfiguration.polyadicExpressionDescription);
@@ -480,82 +326,6 @@ public class EditorConfig implements Configurable {
                 () -> configuration.lambdaExpression,
                 v -> configuration.lambdaExpression = v,
                 baseConfiguration.lambdaExpressionDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.module,
-                v -> configuration.module = v,
-                baseConfiguration.moduleDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.requiresStatement,
-                v -> configuration.requiresStatement = v,
-                baseConfiguration.requiresStatementDescription);
-
-        numeric(
-                advancedFields,
-                () -> configuration.usesStatement,
-                v -> configuration.usesStatement = v,
-                baseConfiguration.usesStatementDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.providesStatement,
-                v -> configuration.providesStatement = v,
-                baseConfiguration.providesStatementDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.methodRefExpression,
-                v -> configuration.methodRefExpression = v,
-                baseConfiguration.methodRefExpressionDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.type,
-                v -> configuration.type = v,
-                baseConfiguration.typeDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.diamondType,
-                v -> configuration.diamondType = v,
-                baseConfiguration.diamondTypeDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.importStaticReference,
-                v -> configuration.importStaticReference = v,
-                baseConfiguration.importStaticReferenceDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.providesWithList,
-                v -> configuration.providesWithList = v,
-                baseConfiguration.providesWithListDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.opensStatement,
-                v -> configuration.opensStatement = v,
-                baseConfiguration.opensStatementDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.exportsStatement,
-                v -> configuration.exportsStatement = v,
-                baseConfiguration.exportsStatementDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.throwsList,
-                v -> configuration.throwsList = v,
-                baseConfiguration.throwsListDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.extendsBoundList,
-                v -> configuration.extendsBoundList = v,
-                baseConfiguration.extendsBoundListDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.implementsList,
-                v -> configuration.implementsList = v,
-                baseConfiguration.implementsListDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.extendsList,
-                v -> configuration.extendsList = v,
-                baseConfiguration.extendsListDescription);
         numeric(
                 advancedFields,
                 () -> configuration.emptyExpression,
@@ -568,21 +338,6 @@ public class EditorConfig implements Configurable {
                 baseConfiguration.switchExpressionDescription);
         numeric(
                 advancedFields,
-                () -> configuration.switchLabeledRule,
-                v -> configuration.switchLabeledRule = v,
-                baseConfiguration.switchLabeledRuleDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.moduleReference,
-                v -> configuration.moduleReference = v,
-                baseConfiguration.moduleReferenceDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.javaCodeReference,
-                v -> configuration.javaCodeReference = v,
-                baseConfiguration.javaCodeReferenceDescription);
-        numeric(
-                advancedFields,
                 () -> configuration.referenceExpression,
                 v -> configuration.referenceExpression = v,
                 baseConfiguration.referenceExpressionDescription);
@@ -591,31 +346,6 @@ public class EditorConfig implements Configurable {
                 () -> configuration.parenthExpression,
                 v -> configuration.parenthExpression = v,
                 baseConfiguration.parenthExpressionDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.docMethodOrFieldRef,
-                v -> configuration.docMethodOrFieldRef = v,
-                baseConfiguration.docMethodOrFieldRefDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.docParameterRef,
-                v -> configuration.docParameterRef = v,
-                baseConfiguration.docParameterRefDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.docTagValueElement,
-                v -> configuration.docTagValueElement = v,
-                baseConfiguration.docTagValueElementDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.docReferenceHolder,
-                v -> configuration.docReferenceHolder = v,
-                baseConfiguration.docReferenceHolderDescription);
-        numeric(
-                advancedFields,
-                () -> configuration.docTypeHolder,
-                v -> configuration.docTypeHolder = v,
-                baseConfiguration.docTypeHolderDescription);
 
         text(
                 miscFields,
@@ -627,26 +357,6 @@ public class EditorConfig implements Configurable {
                 () -> configuration.arrayAccessExpressionDescription,
                 v -> configuration.arrayAccessExpressionDescription = v,
                 baseConfiguration.arrayAccessExpressionDescription);
-        text(
-                miscFields,
-                () -> configuration.arrayInitializerExpressionDescription,
-                v -> configuration.arrayInitializerExpressionDescription = v,
-                baseConfiguration.arrayInitializerExpressionDescription);
-        text(
-                miscFields,
-                () -> configuration.assertStatementDescription,
-                v -> configuration.assertStatementDescription = v,
-                baseConfiguration.assertStatementDescription);
-        text(
-                miscFields,
-                () -> configuration.assignmentExpressionDescription,
-                v -> configuration.assignmentExpressionDescription = v,
-                baseConfiguration.assignmentExpressionDescription);
-        text(
-                miscFields,
-                () -> configuration.binaryExpressionDescription,
-                v -> configuration.binaryExpressionDescription = v,
-                baseConfiguration.binaryExpressionDescription);
         text(
                 miscFields,
                 () -> configuration.blockStatementDescription,
@@ -669,21 +379,6 @@ public class EditorConfig implements Configurable {
                 baseConfiguration.classInitializerDescription);
         text(
                 miscFields,
-                () -> configuration.classObjectAccessExpressionDescription,
-                v -> configuration.classObjectAccessExpressionDescription = v,
-                baseConfiguration.classObjectAccessExpressionDescription);
-        text(
-                miscFields,
-                () -> configuration.codeBlockDescription,
-                v -> configuration.codeBlockDescription = v,
-                baseConfiguration.codeBlockDescription);
-        text(
-                miscFields,
-                () -> configuration.conditionalExpressionDescription,
-                v -> configuration.conditionalExpressionDescription = v,
-                baseConfiguration.conditionalExpressionDescription);
-        text(
-                miscFields,
                 () -> configuration.continueStatementDescription,
                 v -> configuration.continueStatementDescription = v,
                 baseConfiguration.continueStatementDescription);
@@ -699,19 +394,9 @@ public class EditorConfig implements Configurable {
                 baseConfiguration.docCommentDescription);
         text(
                 miscFields,
-                () -> configuration.docTagDescription,
-                v -> configuration.docTagDescription = v,
-                baseConfiguration.docTagDescription);
-        text(
-                miscFields,
                 () -> configuration.doWhileStatementDescription,
                 v -> configuration.doWhileStatementDescription = v,
                 baseConfiguration.doWhileStatementDescription);
-        text(
-                miscFields,
-                () -> configuration.emptyStatementDescription,
-                v -> configuration.emptyStatementDescription = v,
-                baseConfiguration.emptyStatementDescription);
         text(
                 miscFields,
                 () -> configuration.expressionListDescription,
@@ -749,29 +434,9 @@ public class EditorConfig implements Configurable {
                 baseConfiguration.ifStatementDescription);
         text(
                 miscFields,
-                () -> configuration.importListDescription,
-                v -> configuration.importListDescription = v,
-                baseConfiguration.importListDescription);
-        text(
-                miscFields,
                 () -> configuration.importStatementDescription,
                 v -> configuration.importStatementDescription = v,
                 baseConfiguration.importStatementDescription);
-        text(
-                miscFields,
-                () -> configuration.importStaticStatementDescription,
-                v -> configuration.importStaticStatementDescription = v,
-                baseConfiguration.importStaticStatementDescription);
-        text(
-                miscFields,
-                () -> configuration.inlineDocTagDescription,
-                v -> configuration.inlineDocTagDescription = v,
-                baseConfiguration.inlineDocTagDescription);
-        text(
-                miscFields,
-                () -> configuration.instanceOfExpressionDescription,
-                v -> configuration.instanceOfExpressionDescription = v,
-                baseConfiguration.instanceOfExpressionDescription);
         text(
                 miscFields,
                 () -> configuration.labeledStatementDescription,
@@ -799,34 +464,9 @@ public class EditorConfig implements Configurable {
                 baseConfiguration.methodCallExpressionDescription);
         text(
                 miscFields,
-                () -> configuration.modifierListDescription,
-                v -> configuration.modifierListDescription = v,
-                baseConfiguration.modifierListDescription);
-        text(
-                miscFields,
-                () -> configuration.newExpressionDescription,
-                v -> configuration.newExpressionDescription = v,
-                baseConfiguration.newExpressionDescription);
-        text(
-                miscFields,
-                () -> configuration.packageStatementDescription,
-                v -> configuration.packageStatementDescription = v,
-                baseConfiguration.packageStatementDescription);
-        text(
-                miscFields,
                 () -> configuration.parameterDescription,
                 v -> configuration.parameterDescription = v,
                 baseConfiguration.parameterDescription);
-        text(
-                miscFields,
-                () -> configuration.receiverParameterDescription,
-                v -> configuration.receiverParameterDescription = v,
-                baseConfiguration.receiverParameterDescription);
-        text(
-                miscFields,
-                () -> configuration.parameterListDescription,
-                v -> configuration.parameterListDescription = v,
-                baseConfiguration.parameterListDescription);
         text(
                 miscFields,
                 () -> configuration.postfixExpressionDescription,
@@ -839,16 +479,6 @@ public class EditorConfig implements Configurable {
                 baseConfiguration.prefixExpressionDescription);
         text(
                 miscFields,
-                () -> configuration.referenceParameterListDescription,
-                v -> configuration.referenceParameterListDescription = v,
-                baseConfiguration.referenceParameterListDescription);
-        text(
-                miscFields,
-                () -> configuration.typeParameterListDescription,
-                v -> configuration.typeParameterListDescription = v,
-                baseConfiguration.typeParameterListDescription);
-        text(
-                miscFields,
                 () -> configuration.returnStatementDescription,
                 v -> configuration.returnStatementDescription = v,
                 baseConfiguration.returnStatementDescription);
@@ -857,21 +487,6 @@ public class EditorConfig implements Configurable {
                 () -> configuration.superExpressionDescription,
                 v -> configuration.superExpressionDescription = v,
                 baseConfiguration.superExpressionDescription);
-        text(
-                miscFields,
-                () -> configuration.switchLabelStatementDescription,
-                v -> configuration.switchLabelStatementDescription = v,
-                baseConfiguration.switchLabelStatementDescription);
-        text(
-                miscFields,
-                () -> configuration.switchStatementDescription,
-                v -> configuration.switchStatementDescription = v,
-                baseConfiguration.switchStatementDescription);
-        text(
-                miscFields,
-                () -> configuration.synchronizedStatementDescription,
-                v -> configuration.synchronizedStatementDescription = v,
-                baseConfiguration.synchronizedStatementDescription);
         text(
                 miscFields,
                 () -> configuration.thisExpressionDescription,
@@ -894,54 +509,14 @@ public class EditorConfig implements Configurable {
                 baseConfiguration.catchSectionDescription);
         text(
                 miscFields,
-                () -> configuration.resourceListDescription,
-                v -> configuration.resourceListDescription = v,
-                baseConfiguration.resourceListDescription);
-        text(
-                miscFields,
-                () -> configuration.resourceVariableDescription,
-                v -> configuration.resourceVariableDescription = v,
-                baseConfiguration.resourceVariableDescription);
-        text(
-                miscFields,
-                () -> configuration.resourceExpressionDescription,
-                v -> configuration.resourceExpressionDescription = v,
-                baseConfiguration.resourceExpressionDescription);
-        text(
-                miscFields,
-                () -> configuration.typeCastExpressionDescription,
-                v -> configuration.typeCastExpressionDescription = v,
-                baseConfiguration.typeCastExpressionDescription);
-        text(
-                miscFields,
                 () -> configuration.whileStatementDescription,
                 v -> configuration.whileStatementDescription = v,
                 baseConfiguration.whileStatementDescription);
         text(
                 miscFields,
-                () -> configuration.typeParameterDescription,
-                v -> configuration.typeParameterDescription = v,
-                baseConfiguration.typeParameterDescription);
-        text(
-                miscFields,
                 () -> configuration.annotationDescription,
                 v -> configuration.annotationDescription = v,
                 baseConfiguration.annotationDescription);
-        text(
-                miscFields,
-                () -> configuration.annotationParameterListDescription,
-                v -> configuration.annotationParameterListDescription = v,
-                baseConfiguration.annotationParameterListDescription);
-        text(
-                miscFields,
-                () -> configuration.annotationArrayInitializerDescription,
-                v -> configuration.annotationArrayInitializerDescription = v,
-                baseConfiguration.annotationArrayInitializerDescription);
-        text(
-                miscFields,
-                () -> configuration.nameValuePairDescription,
-                v -> configuration.nameValuePairDescription = v,
-                baseConfiguration.nameValuePairDescription);
         text(
                 miscFields,
                 () -> configuration.annotationMethodDescription,
@@ -954,11 +529,6 @@ public class EditorConfig implements Configurable {
                 baseConfiguration.enumConstantDescription);
         text(
                 miscFields,
-                () -> configuration.enumConstantInitializerDescription,
-                v -> configuration.enumConstantInitializerDescription = v,
-                baseConfiguration.enumConstantInitializerDescription);
-        text(
-                miscFields,
                 () -> configuration.polyadicExpressionDescription,
                 v -> configuration.polyadicExpressionDescription = v,
                 baseConfiguration.polyadicExpressionDescription);
@@ -967,81 +537,6 @@ public class EditorConfig implements Configurable {
                 () -> configuration.lambdaExpressionDescription,
                 v -> configuration.lambdaExpressionDescription = v,
                 baseConfiguration.lambdaExpressionDescription);
-        text(
-                miscFields,
-                () -> configuration.moduleDescription,
-                v -> configuration.moduleDescription = v,
-                baseConfiguration.moduleDescription);
-        text(
-                miscFields,
-                () -> configuration.requiresStatementDescription,
-                v -> configuration.requiresStatementDescription = v,
-                baseConfiguration.requiresStatementDescription);
-        text(
-                miscFields,
-                () -> configuration.usesStatementDescription,
-                v -> configuration.usesStatementDescription = v,
-                baseConfiguration.usesStatementDescription);
-        text(
-                miscFields,
-                () -> configuration.providesStatementDescription,
-                v -> configuration.providesStatementDescription = v,
-                baseConfiguration.providesStatementDescription);
-        text(
-                miscFields,
-                () -> configuration.methodRefExpressionDescription,
-                v -> configuration.methodRefExpressionDescription = v,
-                baseConfiguration.methodRefExpressionDescription);
-        text(
-                miscFields,
-                () -> configuration.typeDescription,
-                v -> configuration.typeDescription = v,
-                baseConfiguration.typeDescription);
-        text(
-                miscFields,
-                () -> configuration.diamondTypeDescription,
-                v -> configuration.diamondTypeDescription = v,
-                baseConfiguration.diamondTypeDescription);
-        text(
-                miscFields,
-                () -> configuration.importStaticReferenceDescription,
-                v -> configuration.importStaticReferenceDescription = v,
-                baseConfiguration.importStaticReferenceDescription);
-        text(
-                miscFields,
-                () -> configuration.providesWithListDescription,
-                v -> configuration.providesWithListDescription = v,
-                baseConfiguration.providesWithListDescription);
-        text(
-                miscFields,
-                () -> configuration.opensStatementDescription,
-                v -> configuration.opensStatementDescription = v,
-                baseConfiguration.opensStatementDescription);
-        text(
-                miscFields,
-                () -> configuration.exportsStatementDescription,
-                v -> configuration.exportsStatementDescription = v,
-                baseConfiguration.exportsStatementDescription);
-        text(
-                miscFields,
-                () -> configuration.throwsListDescription,
-                v -> configuration.throwsListDescription = v,
-                baseConfiguration.throwsListDescription);
-        text(
-                miscFields,
-                () -> configuration.extendsBoundListDescription,
-                v -> configuration.extendsBoundListDescription = v,
-                baseConfiguration.extendsBoundListDescription);
-        text(
-                miscFields,
-                () -> configuration.implementsListDescription,
-                v -> configuration.implementsListDescription = v,
-                baseConfiguration.implementsListDescription);
-        text(
-                miscFields,
-                () -> configuration.extendsListDescription,
-                v -> configuration.extendsListDescription = v,
-                baseConfiguration.extendsListDescription);
         text(
                 miscFields,
                 () -> configuration.emptyExpressionDescription,
@@ -1054,21 +549,6 @@ public class EditorConfig implements Configurable {
                 baseConfiguration.switchExpressionDescription);
         text(
                 miscFields,
-                () -> configuration.switchLabeledRuleDescription,
-                v -> configuration.switchLabeledRuleDescription = v,
-                baseConfiguration.switchLabeledRuleDescription);
-        text(
-                miscFields,
-                () -> configuration.moduleReferenceDescription,
-                v -> configuration.moduleReferenceDescription = v,
-                baseConfiguration.moduleReferenceDescription);
-        text(
-                miscFields,
-                () -> configuration.javaCodeReferenceDescription,
-                v -> configuration.javaCodeReferenceDescription = v,
-                baseConfiguration.javaCodeReferenceDescription);
-        text(
-                miscFields,
                 () -> configuration.referenceExpressionDescription,
                 v -> configuration.referenceExpressionDescription = v,
                 baseConfiguration.referenceExpressionDescription);
@@ -1077,31 +557,6 @@ public class EditorConfig implements Configurable {
                 () -> configuration.parenthExpressionDescription,
                 v -> configuration.parenthExpressionDescription = v,
                 baseConfiguration.parenthExpressionDescription);
-        text(
-                miscFields,
-                () -> configuration.docMethodOrFieldRefDescription,
-                v -> configuration.docMethodOrFieldRefDescription = v,
-                baseConfiguration.docMethodOrFieldRefDescription);
-        text(
-                miscFields,
-                () -> configuration.docParameterRefDescription,
-                v -> configuration.docParameterRefDescription = v,
-                baseConfiguration.docParameterRefDescription);
-        text(
-                miscFields,
-                () -> configuration.docTagValueElementDescription,
-                v -> configuration.docTagValueElementDescription = v,
-                baseConfiguration.docTagValueElementDescription);
-        text(
-                miscFields,
-                () -> configuration.docReferenceHolderDescription,
-                v -> configuration.docReferenceHolderDescription = v,
-                baseConfiguration.docReferenceHolderDescription);
-        text(
-                miscFields,
-                () -> configuration.docTypeHolderDescription,
-                v -> configuration.docTypeHolderDescription = v,
-                baseConfiguration.docTypeHolderDescription);
     }
 
     private void checkBox(
@@ -1153,7 +608,7 @@ public class EditorConfig implements Configurable {
     public JComponent createComponent() {
         JTabbedPane tabbedPane = new JBTabbedPane();
 
-        final JPanel panel = new JPanel(new VerticalLayout(8));
+        final JPanel panel = new JPanel(new VerticalLayout(UIUtil.DEFAULT_VGAP));
 
         for (BeanField field : basicFields) {
             panel.add(field.getComponent());
@@ -1170,11 +625,18 @@ public class EditorConfig implements Configurable {
             misc.add(field.getComponent());
         }
 
-        tabbedPane.add("Basics", panel);
-        tabbedPane.add("Advanced", advanced);
-        tabbedPane.add("Miscellaneous", misc);
+        tabbedPane.add("Basics", wrapIntoScrollPane(panel));
+        tabbedPane.add("Advanced", wrapIntoScrollPane(advanced));
+        tabbedPane.add("Miscellaneous", wrapIntoScrollPane(misc));
 
         return tabbedPane;
+    }
+
+    @NotNull
+    private JScrollPane wrapIntoScrollPane(JPanel misc) {
+        JBScrollPane scrollPane = new JBScrollPane(misc, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setPreferredSize(new Dimension(300, 300));
+        return scrollPane;
     }
 
     public boolean isModified() {
@@ -1271,11 +733,12 @@ public class EditorConfig implements Configurable {
         }
 
         Integer getComponentValue() {
-            return colorPanel.getSelectedColor().getRGB();
+            Color selectedColor = colorPanel.getSelectedColor();
+            return selectedColor == null ? 0 : selectedColor.getRGB();
         }
 
         void setComponentValue(final Integer instance) {
-            Color color = new JBColor(new Color(instance, true), new Color());
+            Color color = new Color(instance, true);
             colorPanel.setSelectedColor(color);
         }
     }
@@ -1310,7 +773,7 @@ public class EditorConfig implements Configurable {
             try {
                 result = Integer.parseInt(text);
             } catch (Exception e) {
-
+                // intentionally empty
             }
 
             return result;

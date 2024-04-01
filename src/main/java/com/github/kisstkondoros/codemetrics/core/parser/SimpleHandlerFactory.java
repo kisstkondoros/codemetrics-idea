@@ -6,13 +6,13 @@ import java.util.function.Function;
 
 class SimpleHandlerFactory {
 
-    public ComplexityHandler create(
+    public <T> ComplexityHandler<T> create(
             Function<MetricsConfiguration, Integer> incrementSupplier,
             Function<MetricsConfiguration, String> descriptionSupplier) {
         return create(incrementSupplier, descriptionSupplier, c -> false);
     }
 
-    public ComplexityHandler create(
+    public <T> ComplexityHandler<T> create(
             Function<MetricsConfiguration, Integer> incrementSupplier,
             Function<MetricsConfiguration, String> descriptionSupplier,
             Function<MetricsConfiguration, Boolean> visibilitySupplier) {
