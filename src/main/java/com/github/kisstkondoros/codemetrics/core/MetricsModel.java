@@ -2,7 +2,6 @@ package com.github.kisstkondoros.codemetrics.core;
 
 import com.github.kisstkondoros.codemetrics.core.config.MetricsConfiguration;
 import com.google.common.base.Strings;
-import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
@@ -10,6 +9,7 @@ import com.intellij.psi.PsiNamedElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.LongSummaryStatistics;
+import java.util.function.Supplier;
 
 import static com.github.kisstkondoros.codemetrics.core.CollectorType.MAX;
 
@@ -18,8 +18,8 @@ public class MetricsModel {
     private final boolean visible;
     private final List<MetricsModel> children = new ArrayList<>();
     private final String description;
-    private String text;
-    private String name;
+    private final String text;
+    private final String name;
     private final CollectorType collectorType;
     private final Supplier<Long> memoizedComplexityComputation =
             Suppliers.memoize(this::computeCollectedComplexity);
@@ -36,25 +36,28 @@ public class MetricsModel {
         this.visible = visible;
         this.description = description;
         this.collectorType = collectorType;
-        this.storeText(node, trim);
+        this.text = extractText(node, trim);
         this.textOffset = node.getTextOffset();
         if (node instanceof PsiNamedElement) {
             this.name = ((PsiNamedElement) node).getName();
+        } else {
+            this.name = null;
         }
     }
 
-    private void storeText(PsiElement node, boolean trim) {
-        text = node.getText();
+    private String extractText(PsiElement node, boolean trim) {
+        String text = node.getText();
         if (trim) {
-            int lineFeedIndex = this.getText().indexOf('\r');
-            lineFeedIndex = lineFeedIndex < 0 ? this.getText().length() : (lineFeedIndex + 1);
-            String line = this.getText().substring(0, lineFeedIndex);
+            int lineFeedIndex = text.indexOf('\r');
+            lineFeedIndex = lineFeedIndex < 0 ? text.length() : (lineFeedIndex + 1);
+            String line = text.substring(0, lineFeedIndex);
             if (line.length() > 20) {
                 text = line.substring(0, 20) + "...";
             } else {
                 text = line;
             }
         }
+        return text;
     }
 
     public long getCollectedComplexity() {
