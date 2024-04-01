@@ -10,7 +10,6 @@ import com.intellij.openapi.editor.Inlay;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.ui.ColorUtil;
-import com.intellij.ui.JBColor;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -26,6 +25,7 @@ public class MetricsHintRenderer extends HintRenderer {
         this.model = model;
     }
 
+    @SuppressWarnings("UseJBColor")
     protected TextAttributes getTextAttributes(@NotNull Editor editor) {
         TextAttributesKey textAttributesKey =
                 this.highlighted
@@ -44,21 +44,21 @@ public class MetricsHintRenderer extends HintRenderer {
 
         Color defaultBackground = editor.getColorsScheme().getDefaultBackground();
         Color backgroundColorWithAlpha =
-                new JBColor(new Color(
+                new Color(
                         backgroundColor.getRed(),
                         backgroundColor.getGreen(),
                         backgroundColor.getBlue(),
-                        (int) (backgroundAlpha * highlightMultiplier)), new Color());
+                        (int) (backgroundAlpha * highlightMultiplier));
 
         Color fontColor =
                 getContrastColor(
                         ColorUtil.mix(defaultBackground, backgroundColorWithAlpha, highlightMultiplier));
         clone.setForegroundColor(
-                new JBColor(new Color(
+                new Color(
                         fontColor.getRed(),
                         fontColor.getGreen(),
                         fontColor.getBlue(),
-                        (int) (fontColor.getAlpha() * highlightMultiplier)), new Color()));
+                        (int) (fontColor.getAlpha() * highlightMultiplier)));
         clone.setBackgroundColor(backgroundColorWithAlpha);
 
         return clone;

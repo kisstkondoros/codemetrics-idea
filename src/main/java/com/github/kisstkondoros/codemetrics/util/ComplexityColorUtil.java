@@ -2,7 +2,6 @@ package com.github.kisstkondoros.codemetrics.util;
 
 import com.github.kisstkondoros.codemetrics.core.config.MetricsConfiguration;
 import com.intellij.ui.ColorUtil;
-import com.intellij.ui.JBColor;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -12,6 +11,7 @@ import static com.github.kisstkondoros.codemetrics.util.ColorContrastUtil.getCon
 
 public final class ComplexityColorUtil {
 
+    @SuppressWarnings("UseJBColor")
     public static ComplexityColorScheme getColorSchemeForComplexity(long summary) {
         Color fontColor;
         Color color;
@@ -28,10 +28,10 @@ public final class ComplexityColorUtil {
         Integer complexityLevelHigh = complexities.get(2);
         Integer complexityLevelExtreme = complexities.get(3);
 
-        Color extremeColor = new JBColor(new Color(configuration.complexityColorExtreme, true), new Color());
-        Color highColor = new JBColor(new Color(configuration.complexityColorHigh, true), new Color());
-        Color normalColor = new JBColor(new Color(configuration.complexityColorNormal, true), new Color());
-        Color lowColor = new JBColor(new Color(configuration.complexityColorLow, true), new Color());
+        Color extremeColor = new Color(configuration.complexityColorExtreme, true);
+        Color highColor = new Color(configuration.complexityColorHigh, true);
+        Color normalColor = new Color(configuration.complexityColorNormal, true);
+        Color lowColor = new Color(configuration.complexityColorLow, true);
 
         if (summary >= complexityLevelExtreme) {
             double balance =
