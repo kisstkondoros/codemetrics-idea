@@ -144,7 +144,7 @@ public class MetricsConfiguration implements PersistentStateComponent<MetricsCon
     public String lambdaExpressionDescription = "Lambda Expression";
     public int emptyExpression = 0;
     public String emptyExpressionDescription = "Empty Expression";
-    public int switchExpression = 0;
+    public int switchExpression = 1;
     public String switchExpressionDescription = "Switch Expression";
     public int referenceExpression = 0;
     public String referenceExpressionDescription = "Reference Expression";
