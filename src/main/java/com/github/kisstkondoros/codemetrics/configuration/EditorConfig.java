@@ -1,8 +1,6 @@
 package com.github.kisstkondoros.codemetrics.configuration;
 
 import com.github.kisstkondoros.codemetrics.core.config.MetricsConfiguration;
-import com.intellij.ui.components.panels.HorizontalLayout;
-import com.intellij.ui.components.panels.VerticalLayout;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.ui.ColorPanel;
@@ -10,6 +8,8 @@ import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.components.JBTabbedPane;
 import com.intellij.ui.components.JBTextField;
+import com.intellij.ui.components.panels.HorizontalLayout;
+import com.intellij.ui.components.panels.VerticalLayout;
 import com.intellij.util.ui.UIUtil;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
@@ -25,12 +25,11 @@ import java.util.function.Supplier;
 import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
 import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
 
-@SuppressWarnings({"rawtypes", "UseJBColor"})
 public class EditorConfig implements Configurable {
     private final MetricsConfiguration configuration;
-    private final java.util.List<BeanField> basicFields;
-    private final java.util.List<BeanField> advancedFields;
-    private final java.util.List<BeanField> miscFields;
+    private final java.util.List<BeanField<?, ?>> basicFields;
+    private final java.util.List<BeanField<?, ?>> advancedFields;
+    private final java.util.List<BeanField<?, ?>> miscFields;
 
     protected EditorConfig() {
         configuration = MetricsConfiguration.getInstance();
@@ -39,7 +38,7 @@ public class EditorConfig implements Configurable {
         miscFields = new ArrayList<>();
 
         /* basic fields */
-        this.colorPicker(
+        colorPicker(
                 basicFields,
                 () -> configuration.complexityColorLow,
                 v -> configuration.complexityColorLow = v,
@@ -560,7 +559,7 @@ public class EditorConfig implements Configurable {
     }
 
     private void checkBox(
-            java.util.List<BeanField> fields,
+            java.util.List<BeanField<?, ?>> fields,
             Supplier<Boolean> getter,
             Consumer<Boolean> setter,
             String title) {
@@ -568,7 +567,7 @@ public class EditorConfig implements Configurable {
     }
 
     private void text(
-            java.util.List<BeanField> fields,
+            java.util.List<BeanField<?, ?>> fields,
             Supplier<String> getter,
             Consumer<String> setter,
             String title) {
@@ -576,7 +575,7 @@ public class EditorConfig implements Configurable {
     }
 
     private void numeric(
-            java.util.List<BeanField> fields,
+            java.util.List<BeanField<?, ?>> fields,
             Supplier<Integer> getter,
             Consumer<Integer> setter,
             String title) {
@@ -584,7 +583,7 @@ public class EditorConfig implements Configurable {
     }
 
     private void colorPicker(
-            java.util.List<BeanField> fields,
+            java.util.List<BeanField<?, ?>> fields,
             Supplier<Integer> getter,
             Consumer<Integer> setter,
             String title) {
@@ -610,18 +609,18 @@ public class EditorConfig implements Configurable {
 
         final JPanel panel = new JPanel(new VerticalLayout(UIUtil.DEFAULT_VGAP));
 
-        for (BeanField field : basicFields) {
+        for (BeanField<?, ?> field : basicFields) {
             panel.add(field.getComponent());
         }
 
-        final JPanel advanced = new JPanel(new VerticalLayout(8));
+        final JPanel advanced = new JPanel(new VerticalLayout(UIUtil.DEFAULT_VGAP));
 
-        for (BeanField field : advancedFields) {
+        for (BeanField<?, ?> field : advancedFields) {
             advanced.add(field.getComponent());
         }
 
-        final JPanel misc = new JPanel(new VerticalLayout(8));
-        for (BeanField field : miscFields) {
+        final JPanel misc = new JPanel(new VerticalLayout(UIUtil.DEFAULT_VGAP));
+        for (BeanField<?, ?> field : miscFields) {
             misc.add(field.getComponent());
         }
 
@@ -658,17 +657,13 @@ public class EditorConfig implements Configurable {
         miscFields.forEach(BeanField::reset);
     }
 
-    @Override
-    public void disposeUIResources() {
-    }
-
-    private abstract static class BeanField<PROPTYPE, T extends JComponent> {
-        private final Supplier<PROPTYPE> getter;
-        private final Consumer<PROPTYPE> setter;
+    private abstract static class BeanField<PROP_TYPE, T extends JComponent> {
+        private final Supplier<PROP_TYPE> getter;
+        private final Consumer<PROP_TYPE> setter;
 
         T myComponent;
 
-        private BeanField(Supplier<PROPTYPE> getter, Consumer<PROPTYPE> setter) {
+        private BeanField(Supplier<PROP_TYPE> getter, Consumer<PROP_TYPE> setter) {
             this.getter = getter;
             this.setter = setter;
         }
@@ -696,15 +691,15 @@ public class EditorConfig implements Configurable {
             setComponentValue(getBeanValue());
         }
 
-        abstract PROPTYPE getComponentValue();
+        abstract PROP_TYPE getComponentValue();
 
-        abstract void setComponentValue(PROPTYPE instance);
+        abstract void setComponentValue(PROP_TYPE instance);
 
-        PROPTYPE getBeanValue() {
+        PROP_TYPE getBeanValue() {
             return getter.get();
         }
 
-        void setBeanValue(PROPTYPE value) {
+        void setBeanValue(PROP_TYPE value) {
             setter.accept(value);
         }
     }
@@ -737,6 +732,7 @@ public class EditorConfig implements Configurable {
             return selectedColor == null ? 0 : selectedColor.getRGB();
         }
 
+        @SuppressWarnings("UseJBColor")
         void setComponentValue(final Integer instance) {
             Color color = new Color(instance, true);
             colorPanel.setSelectedColor(color);
