@@ -74,7 +74,7 @@ public class UElementHandlerRegistry {
                 genericHandler.create(c -> c.superExpression, c -> c.superExpressionDescription));
         register(
                 UParenthesizedExpression.class,
-                genericHandler.create(c -> c.parenthExpression, c -> c.parenthExpressionDescription));
+                genericHandler.create(c -> c.parenthesizedExpression, c -> c.parenthesizedExpressionDescription));
         register(
                 UCallExpression.class,
                 genericHandler.create(c -> c.methodCallExpression, c -> c.methodCallExpressionDescription));

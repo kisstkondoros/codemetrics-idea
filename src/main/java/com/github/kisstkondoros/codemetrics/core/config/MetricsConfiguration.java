@@ -148,6 +148,6 @@ public class MetricsConfiguration implements PersistentStateComponent<MetricsCon
     public String switchExpressionDescription = "Switch Expression";
     public int referenceExpression = 0;
     public String referenceExpressionDescription = "Reference Expression";
-    public int parenthExpression = 0;
-    public String parenthExpressionDescription = "Parenthesized Expression";
+    public int parenthesizedExpression = 0;
+    public String parenthesizedExpressionDescription = "Parenthesized Expression";
 }

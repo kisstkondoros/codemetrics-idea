@@ -343,9 +343,9 @@ public class EditorConfig implements Configurable {
                 baseConfiguration.referenceExpressionDescription);
         numeric(
                 advancedFields,
-                () -> configuration.parenthExpression,
-                v -> configuration.parenthExpression = v,
-                baseConfiguration.parenthExpressionDescription);
+                () -> configuration.parenthesizedExpression,
+                v -> configuration.parenthesizedExpression = v,
+                baseConfiguration.parenthesizedExpressionDescription);
 
         text(
                 miscFields,
@@ -554,9 +554,9 @@ public class EditorConfig implements Configurable {
                 baseConfiguration.referenceExpressionDescription);
         text(
                 miscFields,
-                () -> configuration.parenthExpressionDescription,
-                v -> configuration.parenthExpressionDescription = v,
-                baseConfiguration.parenthExpressionDescription);
+                () -> configuration.parenthesizedExpressionDescription,
+                v -> configuration.parenthesizedExpressionDescription = v,
+                baseConfiguration.parenthesizedExpressionDescription);
     }
 
     private void checkBox(
