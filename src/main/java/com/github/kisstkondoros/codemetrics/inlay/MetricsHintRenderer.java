@@ -36,9 +36,9 @@ public class MetricsHintRenderer extends HintRenderer {
 
         ComplexityColorUtil.ComplexityColorScheme colorSchemeForComplexity =
                 ComplexityColorUtil.getColorSchemeForComplexity(model.getCollectedComplexity());
-        int backgroundAlpha = colorSchemeForComplexity.getColor().getAlpha();
+        int backgroundAlpha = colorSchemeForComplexity.color().getAlpha();
 
-        Color backgroundColor = colorSchemeForComplexity.getColor();
+        Color backgroundColor = colorSchemeForComplexity.color();
 
         double highlightMultiplier = this.highlighted ? 1 : 0.8d;
 

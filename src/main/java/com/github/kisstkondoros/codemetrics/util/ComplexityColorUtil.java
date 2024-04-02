@@ -53,21 +53,6 @@ public final class ComplexityColorUtil {
         return new ComplexityColorScheme(color, fontColor);
     }
 
-    public static class ComplexityColorScheme {
-        private final Color color;
-        private final Color fontColor;
-
-        public ComplexityColorScheme(Color color, Color fontColor) {
-            this.color = color;
-            this.fontColor = fontColor;
-        }
-
-        public Color getColor() {
-            return color;
-        }
-
-        public Color getFontColor() {
-            return fontColor;
-        }
+    public record ComplexityColorScheme(Color color, Color fontColor) {
     }
 }
